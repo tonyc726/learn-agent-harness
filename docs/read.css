@@ -474,10 +474,10 @@ body.is-read.is-game .site-nav {
   line-height: 1.55;
 }
 
-@media (min-width: 721px) {
+@media (min-width: 560px) {
   .play-layout {
     display: grid;
-    grid-template-columns: minmax(20rem, 0.72fr) minmax(0, 1.28fr);
+    grid-template-columns: minmax(16rem, 0.72fr) minmax(0, 1.28fr);
     gap: 0;
     align-items: stretch;
   }
@@ -524,6 +524,21 @@ body.is-read.is-game .site-nav {
 }
 
 @media (max-width: 720px) {
+  .btn-start {
+    width: 100%;
+  }
+
+  .progress-chip,
+  .kit-lock,
+  .kit-sheet-toggle,
+  .kit-chip,
+  .file-jump a,
+  .btn-start {
+    min-height: 44px;
+  }
+}
+
+@media (max-width: 559px) {
   .play-layout {
     display: flex;
     flex-direction: column;
@@ -532,30 +547,51 @@ body.is-read.is-game .site-nav {
 
   .read-article {
     flex: 1 1 auto;
-    padding: 1rem 1.1rem 7.5rem;
+    min-height: 0;
+    padding: 1rem 1.1rem 1.1rem;
   }
 
   .read-article section {
-    min-height: 70vh;
-    padding: 1.6rem 0 2rem;
-  }
-
-  .btn-start {
-    width: 100%;
+    min-height: 0;
+    padding: 1.35rem 0 1.5rem;
   }
 
   .kit-dock {
-    position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 30;
+    position: relative;
+    left: auto;
+    right: auto;
+    bottom: auto;
+    z-index: 5;
+    flex: 0 0 auto;
     border-radius: 16px 16px 0 0;
     border-left: 0;
     border-right: 0;
     border-bottom: 0;
-    padding: 0.65rem 0.9rem calc(0.7rem + env(safe-area-inset-bottom, 0px));
+    padding: 0.55rem 0.8rem calc(0.55rem + env(safe-area-inset-bottom, 0px));
     max-height: none;
+  }
+
+  .kit-bar {
+    flex-wrap: nowrap;
+  }
+
+  .kit-bar .slot-label {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .progress-chip {
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .kit-sheet-toggle {
+    margin-left: auto;
+    flex: 0 0 auto;
   }
 
   .kit-dock:not(.is-open) .kit-sheet {
@@ -563,13 +599,11 @@ body.is-read.is-game .site-nav {
   }
 
   .kit-dock.is-open {
-    inset: 0;
-    height: 100dvh;
-    max-height: 100dvh;
-    border-radius: 0;
+    flex: 0 0 48vh;
+    height: 48vh;
+    max-height: 48vh;
     display: flex;
     flex-direction: column;
-    padding: 0.75rem 0.9rem calc(0.75rem + env(safe-area-inset-bottom, 0px));
   }
 
   .kit-dock.is-open .kit-sheet {
@@ -590,20 +624,5 @@ body.is-read.is-game .site-nav {
     flex: 1 1 auto;
     max-height: none;
     min-height: 0;
-  }
-
-  .kit-bar .slot-label {
-    min-height: 44px;
-    display: inline-flex;
-    align-items: center;
-  }
-
-  .progress-chip,
-  .kit-lock,
-  .kit-sheet-toggle,
-  .kit-chip,
-  .file-jump a,
-  .btn-start {
-    min-height: 44px;
   }
 }

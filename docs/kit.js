@@ -370,6 +370,10 @@
     }
   }
 
+  function isPhone() {
+    return window.matchMedia && window.matchMedia("(max-width: 559px)").matches;
+  }
+
   function showFile(key) {
     var ch = chapterByKey(key);
     if (!ch) return;
@@ -381,6 +385,7 @@
     var body = qs("#kit-body");
     if (body) body.innerHTML = "<pre><code class=\"lang-ts\">" + highlightTs(ch.sample) + "</code></pre>";
     renderChips();
+    if (isPhone()) setSheet(true);
   }
 
   function activateSection(el) {
@@ -465,9 +470,7 @@
         var key = btn.getAttribute("data-key");
         if (FILE_KEYS.indexOf(key) === -1) return;
         showFile(key);
-        if (window.matchMedia && window.matchMedia("(max-width: 720px)").matches) {
-          setSheet(true);
-        }
+        if (isPhone()) setSheet(true);
       });
     }
 
