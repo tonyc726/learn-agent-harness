@@ -40,6 +40,15 @@
   justify-content: center;
   min-height: 44px;
   padding: 0.62rem 1.2rem;
+  text-decoration: none;
+}
+
+a.btn.btn-start,
+a.btn.btn-start:visited,
+a.btn.btn-start:hover,
+a.btn.btn-start:focus-visible,
+a.btn.btn-start:active {
+  color: #fffaf2;
 }
 
 .home-aside {
