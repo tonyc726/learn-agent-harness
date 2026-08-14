@@ -4,7 +4,7 @@
 
 线上地址：<https://tonyc726.github.io/learn-agent-harness/>
 
-本仓库是一个静态 GitHub Pages 站点。`docs/play.html` 是一篇可滚动长文：读到哪一份，右边（手机上是底栏）工具箱就亮哪一份。想停在某一份，点工具箱上的锁。
+本仓库是一个静态 GitHub Pages 站点。首页先画出五个文件怎么流；`docs/play.html` 是一篇可滚动长文：读到哪一份，右边（手机上是底栏）工具箱就亮哪一份，代码带高亮。想停在某一份，点工具箱上的锁。
 
 浏览器 `localStorage` 键名 `nano-kit-v1`，只记锁和上次打开的文件（`{ lock, lastFile }`）。不记关卡，不要求装入工件。
 
@@ -38,7 +38,7 @@ python3 -m http.server -d docs 8080
 
 | 页面 | 内容 |
 | --- | --- |
-| `docs/index.html` | 入口。五个文件跳到 `play.html` 锚点 |
+| `docs/index.html` | 入口。数据流、五个文件、`llm.ts` 预览 |
 | `docs/play.html` | 长文。锚点 `#intro` `#llm` `#agent` `#tools` `#tui` `#cli` `#flow` |
 | `docs/harness.html` | 源码线 |
 | `docs/repos.html` | 官方仓库对照表 |
