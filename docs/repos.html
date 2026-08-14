@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>官方仓库对照 · learn-agent-harness</title>
+  <meta name="description" content="Deep Agents、Pi、Codex、DeepSeek Harness、Claude Code 官方仓库对照表。">
+  <meta name="theme-color" content="#f4efe6">
+  <link rel="canonical" href="https://tonyc726.github.io/learn-agent-harness/repos.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&family=Noto+Serif+SC:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<nav class="site-nav">
+  <a class="brand" href="index.html">learn-agent-harness</a>
+  <div class="links">
+    <a href="index.html">首页</a>
+    <a href="deep-agent.html">三晚速成</a>
+    <a href="harness.html">源码线</a>
+    <a href="repos.html" class="active">仓库</a>
+    <a href="resources.html">链接</a>
+  </div>
+</nav>
+  <div class="wrap">
+    <p class="eyebrow">Official repositories</p>
+    <h1>官方仓库</h1>
+    <p class="lead">
+      只列官方仓。许可证与入口文件以仓库当时状态为准；本表方便对照，不替代 README。
+    </p>
+
+    <section class="panel">
+      <h2>对照表</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>项目</th>
+            <th>仓库</th>
+            <th>许可</th>
+            <th>入口</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Deep Agents</td>
+            <td><a href="https://github.com/langchain-ai/deepagents">langchain-ai/deepagents</a></td>
+            <td>MIT</td>
+            <td><code>create_deep_agent</code></td>
+          </tr>
+          <tr>
+            <td>Pi</td>
+            <td><a href="https://github.com/earendil-works/pi">earendil-works/pi</a></td>
+            <td>MIT</td>
+            <td><code>packages/agent/src/agent-loop.ts</code></td>
+          </tr>
+          <tr>
+            <td>Codex</td>
+            <td><a href="https://github.com/openai/codex">openai/codex</a></td>
+            <td>Apache-2.0</td>
+            <td><code>codex-rs/core/src/session/turn.rs</code></td>
+          </tr>
+          <tr>
+            <td>DeepSeek Harness</td>
+            <td><a href="https://github.com/deepseek-ai/deepseek-harness">deepseek-ai/deepseek-harness</a></td>
+            <td>MIT</td>
+            <td><code>packages/core/agent-loop/src/agent.ts</code></td>
+          </tr>
+          <tr>
+            <td>Claude Code</td>
+            <td><a href="https://github.com/anthropics/claude-code">anthropics/claude-code</a></td>
+            <td>专有许可</td>
+            <td>无公开 loop；仓内主要是 changelog 与 plugins</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="note">
+        Claude Code 不要用 sourcemap 还原来补「缺失的循环」。研究 agent loop 请走 Pi / Codex / dsh。
+      </p>
+    </section>
+  <footer class="colophon">
+    <p>静态学习站。不转载橙皮书 PDF，也不摘录其正文。对照请打开官方仓库与文档。</p>
+  </footer>
+</div>
+</body>
+</html>

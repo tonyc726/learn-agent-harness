@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>三晚把业务 Agent 做稳 · Deep Agents 速成</title>
+  <meta name="description" content="三晚把业务 Agent 做稳：Deep Agents harness 速成。今晚说明书与黄金路径，明晚硬约束，后天 Skill 与独立检查。">
+  <meta name="theme-color" content="#f4efe6">
+  <link rel="canonical" href="https://tonyc726.github.io/learn-agent-harness/deep-agent.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Noto+Serif+SC:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --cream: #f4efe6;
+      --paper: #fffaf2;
+      --ink: #1c1914;
+      --muted: #6b6258;
+      --rule: #e4d8c4;
+      --rust: #b45309;
+      --rust-deep: #8a3d07;
+      --chip: #f3e4d0;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      background: var(--cream);
+      color: var(--ink);
+      font-family: "IBM Plex Sans", "Noto Sans SC", sans-serif;
+      font-size: 17px;
+      line-height: 1.7;
+    }
+
+    a { color: var(--rust); text-underline-offset: 0.18em; }
+    a:hover { color: var(--rust-deep); }
+
+    .wrap {
+      width: min(920px, calc(100% - 2rem));
+      margin: 0 auto;
+      padding: 2.4rem 0 4rem;
+    }
+
+    .eyebrow {
+      font-size: 0.78rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--rust);
+      font-weight: 600;
+      margin: 0 0 0.7rem;
+    }
+
+    h1, h2, h3 {
+      font-family: "Noto Serif SC", "Songti SC", serif;
+      font-weight: 700;
+      line-height: 1.25;
+      letter-spacing: -0.02em;
+    }
+
+    h1 { font-size: clamp(2rem, 5vw, 3rem); margin: 0 0 0.8rem; }
+    h2 { font-size: 1.55rem; margin: 0 0 0.7rem; }
+    h3 { font-size: 1.15rem; margin: 1.4rem 0 0.5rem; }
+
+    .lead {
+      font-size: 1.08rem;
+      color: var(--muted);
+      max-width: 42rem;
+      margin: 0 0 1.6rem;
+    }
+
+    .nights {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.85rem;
+      margin: 1.6rem 0 0;
+    }
+
+    .night-card {
+      background: var(--paper);
+      border: 1px solid var(--rule);
+      border-radius: 16px;
+      padding: 1rem 1.05rem 1.1rem;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+      min-height: 100%;
+    }
+
+    .night-card:hover { border-color: #d4b48a; }
+
+    .night-card .when {
+      display: inline-block;
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--rust);
+      font-weight: 600;
+      margin-bottom: 0.35rem;
+    }
+
+    .night-card strong {
+      display: block;
+      font-family: "Noto Serif SC", serif;
+      font-size: 1.05rem;
+      margin-bottom: 0.35rem;
+    }
+
+    .night-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    nav.toc {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.55rem 0.9rem;
+      margin: 1.8rem 0 0;
+      padding: 0.9rem 0 0;
+      border-top: 1px solid var(--rule);
+      font-size: 0.92rem;
+    }
+
+    nav.toc a { text-decoration: none; font-weight: 500; }
+    nav.toc a:hover { text-decoration: underline; }
+
+    section.panel {
+      background: var(--paper);
+      border: 1px solid var(--rule);
+      border-radius: 20px;
+      padding: 1.45rem 1.4rem 1.55rem;
+      margin: 1.25rem 0 0;
+    }
+
+    p { margin: 0 0 0.85rem; }
+    p:last-child { margin-bottom: 0; }
+
+    ul, ol { margin: 0 0 0.9rem; padding-left: 1.2rem; }
+    li { margin: 0.28rem 0; }
+    li:last-child { margin-bottom: 0; }
+
+    .note {
+      background: var(--chip);
+      border-radius: 12px;
+      padding: 0.75rem 0.9rem;
+      color: var(--ink);
+      font-size: 0.95rem;
+      margin: 0.9rem 0 0;
+    }
+
+    .checks {
+      list-style: none;
+      padding: 0;
+      margin: 0.9rem 0 0;
+    }
+
+    .checks li {
+      display: flex;
+      gap: 0.6rem;
+      align-items: flex-start;
+      background: var(--cream);
+      border-radius: 12px;
+      padding: 0.65rem 0.75rem;
+      margin: 0.45rem 0 0;
+    }
+
+    .checks input {
+      margin-top: 0.35rem;
+      accent-color: var(--rust);
+      width: 1rem;
+      height: 1rem;
+      flex: 0 0 auto;
+    }
+
+    .checks label { cursor: pointer; }
+
+    pre {
+      margin: 0.9rem 0 0;
+      padding: 0.95rem 1rem;
+      overflow-x: auto;
+      background: #221c16;
+      color: #f6efe4;
+      border-radius: 14px;
+      font-size: 0.82rem;
+      line-height: 1.55;
+    }
+
+    code {
+      font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 0.88em;
+    }
+
+    p code, li code, td code {
+      background: var(--chip);
+      padding: 0.08em 0.35em;
+      border-radius: 6px;
+    }
+
+    pre code {
+      background: none;
+      padding: 0;
+      color: inherit;
+      font-size: 1em;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 0.9rem 0 0;
+      font-size: 0.95rem;
+    }
+
+    th, td {
+      text-align: left;
+      vertical-align: top;
+      padding: 0.7rem 0.65rem;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    th {
+      color: var(--rust);
+      font-size: 0.78rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .skip-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.7rem;
+      margin-top: 0.9rem;
+    }
+
+    .skip-item {
+      background: var(--cream);
+      border-radius: 14px;
+      padding: 0.8rem 0.9rem;
+    }
+
+    .skip-item strong { display: block; margin-bottom: 0.2rem; }
+    .skip-item p { margin: 0; color: var(--muted); font-size: 0.92rem; }
+
+    .links { list-style: none; padding: 0; margin: 0.7rem 0 0; }
+    .links li {
+      padding: 0.55rem 0;
+      border-bottom: 1px solid var(--rule);
+    }
+    .links li:last-child { border-bottom: 0; }
+    .links small { display: block; color: var(--muted); }
+
+    footer.colophon {
+      margin-top: 1.6rem;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .progress {
+      margin-top: 1rem;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+
+    /* site-wide nav (injected for this standalone page) */
+    .site-nav {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.7rem 1.2rem;
+      width: min(920px, calc(100% - 2rem));
+      margin: 0 auto;
+      padding: 1rem 0 0.85rem;
+      border-bottom: 1px solid var(--rule);
+    }
+    .site-nav .brand {
+      font-family: "Noto Serif SC", serif;
+      font-weight: 700;
+      font-size: 1.02rem;
+      color: var(--ink);
+      text-decoration: none;
+    }
+    .site-nav .brand:hover { color: var(--rust); }
+    .site-nav .links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem 0.95rem;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      border: 0;
+    }
+    .site-nav .links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.92rem;
+      font-weight: 500;
+    }
+    .site-nav .links a:hover,
+    .site-nav .links a.active {
+      color: var(--rust);
+    }
+    .site-nav .links a.active {
+      text-decoration: underline;
+      text-underline-offset: 0.22em;
+    }
+    .site-nav .links li { border: 0; padding: 0; margin: 0; }
+
+    @media (max-width: 720px) {
+      .nights { grid-template-columns: 1fr; }
+      .skip-grid { grid-template-columns: 1fr; }
+      section.panel { padding: 1.15rem 1rem 1.25rem; border-radius: 16px; }
+    }
+  </style>
+</head>
+<body>
+<nav class="site-nav">
+  <a class="brand" href="index.html">learn-agent-harness</a>
+  <div class="links">
+    <a href="index.html">首页</a>
+    <a href="deep-agent.html" class="active">三晚速成</a>
+    <a href="harness.html">源码线</a>
+    <a href="repos.html">仓库</a>
+    <a href="resources.html">链接</a>
+  </div>
+</nav>
+  <div class="wrap">
+    <p class="eyebrow">Deep Agents · Harness Crash Course</p>
+    <h1>三晚把业务 Agent 做稳</h1>
+    <p class="lead">
+      这不是再读一本 Agent 百科。三晚只做一件事：用 LangChain Deep Agents 把一条业务黄金路径箍住——说明书写清、硬约束上锁、Skill 可复用、结果有人独立检查。
+    </p>
+
+    <div class="nights">
+      <a class="night-card" href="#night1">
+        <span class="when">今晚</span>
+        <strong>说明书 + 黄金路径</strong>
+        <p>先写清「它只做什么」，再跑通一条最短成功路径。</p>
+      </a>
+      <a class="night-card" href="#night2">
+        <span class="when">明晚</span>
+        <strong>硬约束</strong>
+        <p>用 <code>permissions</code> 和 <code>interrupt_on</code> 把危险动作拦住。</p>
+      </a>
+      <a class="night-card" href="#night3">
+        <span class="when">后天</span>
+        <strong>Skill + 独立检查</strong>
+        <p>领域流程装进 Skill，再用子 Agent 复核，不自审自批。</p>
+      </a>
+    </div>
+
+    <nav class="toc" aria-label="本页目录">
+      <a href="#plan">计划</a>
+      <a href="#night1">今晚</a>
+      <a href="#night2">明晚</a>
+      <a href="#night3">后天</a>
+      <a href="#map">映射表</a>
+      <a href="#skip">先跳过</a>
+      <a href="#links">链接</a>
+    </nav>
+
+    <section class="panel" id="plan">
+      <h2>三晚计划</h2>
+      <p>
+        Deep Agents 是一套现成的 agent harness：规划、文件系统、子 Agent、记忆、Skill、人在回路，都已经焊在 <code>create_deep_agent</code> 上。业务 Agent 做不稳，通常不是模型不够聪明，而是缰绳没装好——指令含糊、约束靠自觉、反馈靠运气、能力散落在聊天记录里。
+      </p>
+      <p>
+        三晚的节奏刻意很窄。每晚只交付一个能跑的增量，第二天接着箍。做完后你手里应有：一份说明书、一条黄金路径、一组硬约束、一个 Skill、一次独立检查。
+      </p>
+      <ul>
+        <li><strong>今晚</strong>：写说明书，钉死黄金路径，用最小 <code>create_deep_agent</code> 跑通。</li>
+        <li><strong>明晚</strong>：给写文件、发信、删数据这类动作加 <code>permissions</code> 与 <code>interrupt_on</code>。</li>
+        <li><strong>后天</strong>：把流程收进 <code>SKILL.md</code>，再派一个只读检查员验收。</li>
+      </ul>
+      <p class="note">
+        橙皮书讲的是缰绳工程学的一般方法；本页只把它落到 Deep Agents 的 API 上。不摘录橙皮书正文。
+      </p>
+      <ul class="checks">
+        <li>
+          <input type="checkbox" id="plan-scope" data-check="plan-scope">
+          <label for="plan-scope">已选定一条真实业务路径（例如「查库存 → 拟回复 → 等人确认再发送」），三晚不换题。</label>
+        </li>
+        <li>
+          <input type="checkbox" id="plan-env" data-check="plan-env">
+          <label for="plan-env">本机已能 <code>pip install deepagents</code>，并读过 Overview / Quickstart，不从别的框架起盘。</label>
+        </li>
+      </ul>
+    </section>
+
+    <section class="panel" id="night1">
+      <h2>今晚：说明书 + 黄金路径</h2>
+      <p>
+        说明书不是产品文案，是给模型的合同。写清角色、边界、输入、输出、以及「绝对不要做什么」。黄金路径是合同里的第一条可执行条款：从真实输入到可验收输出，中间步骤越少越好。
+      </p>
+      <h3>说明书要钉死的五句话</h3>
+      <ol>
+        <li>你是谁，服务哪条业务，不服务什么。</li>
+        <li>成功长什么样：一份结构化结果，而不是一段随口解释。</li>
+        <li>工具清单：只能用列出的工具，缺数据就停，不编造。</li>
+        <li>工作区：只读写约定目录，草稿和最终件分开。</li>
+        <li>停手条件：不确定、缺权限、或偏离黄金路径时，写明原因并等待。</li>
+      </ol>
+      <p>
+        把这五句话放进 <code>system_prompt</code>，稳定偏好再放进 <code>memory</code>（<code>AGENTS.md</code>）。说明书要短，短到你能大声读完还不喘。
+      </p>
+      <pre><code>from deepagents import create_deep_agent
+from deepagents.backends.filesystem import FilesystemBackend
+
+SYSTEM_PROMPT = """你是售后库存助手，只处理「能否发货」这一条路径。
+成功标准：写出一份含 sku、库存结论、建议话术 的草稿，放在 /workspace/outbox/。
+不要 invent 库存；查不到就停。不要直接对客发送。
+偏离黄金路径时，说明缺什么，然后等待。
+"""
+
+def lookup_stock(sku: str) -> str:
+    """按 SKU 查询库存。查不到就返回 NOT_FOUND。"""
+    return "sku=A-12 qty=8 warehouse=CN-EAST"
+
+agent = create_deep_agent(
+    model="anthropic:claude-sonnet-4-6",
+    system_prompt=SYSTEM_PROMPT,
+    tools=[lookup_stock],
+    memory=["./AGENTS.md"],
+    backend=FilesystemBackend(root_dir="./ops-agent"),
+)
+
+result = agent.invoke({
+    "messages": [{"role": "user", "content": "客户问 A-12 今晚能否发 2 件"}]
+})</code></pre>
+      <h3>黄金路径怎么验收</h3>
+      <p>
+        准备三组输入：一组正常单、一组库存不足、一组 SKU 不存在。今晚只要求正常单稳定产出草稿。失败案例先记下来，明晚用约束接住，不要今晚就加子 Agent。
+      </p>
+      <ul class="checks">
+        <li>
+          <input type="checkbox" id="n1-spec" data-check="n1-spec">
+          <label for="n1-spec">说明书五句话已写进 <code>system_prompt</code> / <code>AGENTS.md</code>，同事读一遍不会产生第二种理解。</label>
+        </li>
+        <li>
+          <input type="checkbox" id="n1-path" data-check="n1-path">
+          <label for="n1-path">黄金路径步骤不超过 5 个，每步都有工具或文件落点。</label>
+        </li>
+        <li>
+          <input type="checkbox" id="n1-run" data-check="n1-run">
+          <label for="n1-run">正常单已用 <code>create_deep_agent</code> 跑通，输出在约定目录，且没有对客发送。</label>
+        </li>
+        <li>
+          <input type="checkbox" id="n1-fail" data-check="n1-fail">
+          <label for="n1-fail">已记下至少两个失败输入，留给明晚的硬约束，而不是靠再写一段提示词。</label>
+        </li>
+      </ul>
+    </section>
+
+    <section class="panel" id="night2">
+      <h2>明晚：硬约束</h2>
+      <p>
+        提示词是软约束。业务 Agent 要稳，必须把「不能写的路径」和「不能擅自执行的工具」写成代码。Deep Agents 给了两把锁：<code>permissions</code> 管内置文件系统工具；<code>interrupt_on</code> 管自定义工具的人在回路。
+      </p>
+      <p>
+        规则按声明顺序、先匹配先生效。更具体的规则放前面。默认是放行，所以最后通常要有一条总闸。人在回路必须带 <code>checkpointer</code>，否则中断后无法恢复。
+      </p>
+      <pre><code>from deepagents import FilesystemPermission, create_deep_agent
+from langgraph.checkpoint.memory import MemorySaver
+
+checkpointer = MemorySaver()
+
+agent = create_deep_agent(
+    model="anthropic:claude-sonnet-4-6",
+    system_prompt=SYSTEM_PROMPT,
+    tools=[lookup_stock, notify_email],
+    backend=backend,
+    checkpointer=checkpointer,
+    permissions=[
+        FilesystemPermission(
+            operations=["write"],
+            paths=["/workspace/.env", "/workspace/secrets/**"],
+            mode="deny",
+        ),
+        FilesystemPermission(
+            operations=["write"],
+            paths=["/workspace/outbox/**"],
+            mode="interrupt",
+        ),
+        FilesystemPermission(
+            operations=["read", "write"],
+            paths=["/workspace/**"],
+            mode="allow",
+        ),
+        FilesystemPermission(
+            operations=["read", "write"],
+            paths=["/**"],
+            mode="deny",
+        ),
+    ],
+    interrupt_on={
+        "lookup_stock": False,
+        "notify_email": {"allowed_decisions": ["approve", "reject"]},
+    },
+)</code></pre>
+      <h3>明晚只箍三件事</h3>
+      <ol>
+        <li>工作区以外的读写全部 <code>deny</code>；<code>.env</code> 与密钥目录单独拒绝。</li>
+        <li>最终件目录用 <code>mode="interrupt"</code>，写出去之前必须有人点头。</li>
+        <li>对客发送、删数据、改生产配置走 <code>interrupt_on</code>，只允许批准或拒绝，不给模型当场改参数的自由。</li>
+      </ol>
+      <p class="note">
+        <code>permissions</code> 只管内置文件系统工具。自定义工具、MCP、以及沙箱里的 <code>execute</code> 不会自动遵守这些规则。危险动作必须同时出现在 <code>interrupt_on</code> 里。
+      </p>
+      <ul class="checks">
+        <li>
+          <input type="checkbox" id="n2-perm" data-check="n2-perm">
+          <label for="n2-perm">已用更具体规则在前、总闸在后的 <code>permissions</code> 锁住工作区，并单独拒绝密钥路径。</label>
+        </li>
+        <li>
+          <input type="checkbox" id="n2-hitl" data-check="n2-hitl">
+          <label for="n2-hitl">发送 / 删除 / 写最终件已配置 <code>interrupt_on</code> 或 <code>mode="interrupt"</code>，且传入了 <code>checkpointer</code>。</label>
+        </li>
+        <li>
+          <input type="checkbox" id="n2-probe" data-check="n2-probe">
+          <label for="n2-probe">故意让 Agent 写工作区外路径、或未批准就发送，确认被拒绝或挂起，而不是「模型答应了就算」。</label>
+        </li>
+        <li>
+          <input type="checkbox" id="n2-fail" data-check="n2-fail">
+          <label for="n2-fail">昨晚记下的失败输入，今晚至少有一条被硬约束接住，而不是靠加长说明书。</label>
+        </li>
+      </ul>
+    </section>
+
+    <section class="panel" id="night3">
+      <h2>后天：Skill + 独立检查</h2>
+      <p>
+        说明书负责「你是谁」；Skill 负责「这类活怎么做」。Skill 按 Agent Skills 规范放在目录里，入口是 <code>SKILL.md</code>。Deep Agents 启动时只读 name / description，真正用到才加载全文——这叫渐进披露，别把整本操作手册塞进 <code>system_prompt</code>。
+      </p>
+      <p>
+        独立检查是另一条原则：写稿的 Agent 不能给自己盖章。派一个只读子 Agent，对照验收清单看草稿，只输出通过 / 驳回和理由。
+      </p>
+      <pre><code>from deepagents import FilesystemPermission, create_deep_agent
+from deepagents.backends.filesystem import FilesystemBackend
+from langgraph.checkpoint.memory import MemorySaver
+
+backend = FilesystemBackend(root_dir="./ops-agent")
+
+reviewer = {
+    "name": "draft-auditor",
+    "description": "只读检查 outbox 草稿是否可发，不改文件、不发送。",
+    "system_prompt": (
+        "你是独立检查员。只读 /workspace/outbox/。"
+        "核对：SKU 来自工具结果、库存结论可追溯、话术未承诺无法发货。"
+        "输出 PASS 或 REJECT，附三条以内理由。"
+    ),
+    "tools": [],
+    "permissions": [
+        FilesystemPermission(operations=["write"], paths=["/**"], mode="deny"),
+        FilesystemPermission(operations=["read"], paths=["/workspace/outbox/**"], mode="allow"),
+        FilesystemPermission(operations=["read"], paths=["/**"], mode="deny"),
+    ],
+}
+
+agent = create_deep_agent(
+    model="anthropic:claude-sonnet-4-6",
+    system_prompt=SYSTEM_PROMPT,
+    tools=[lookup_stock, notify_email],
+    backend=backend,
+    skills=["./skills/"],
+    subagents=[reviewer],
+    permissions=[
+        FilesystemPermission(operations=["write"], paths=["/workspace/outbox/**"], mode="interrupt"),
+        FilesystemPermission(operations=["read", "write"], paths=["/workspace/**"], mode="allow"),
+        FilesystemPermission(operations=["read", "write"], paths=["/**"], mode="deny"),
+    ],
+    interrupt_on={"notify_email": {"allowed_decisions": ["approve", "reject"]}},
+    checkpointer=MemorySaver(),
+)</code></pre>
+      <h3>一个够用的 Skill 长什么样</h3>
+      <p>
+        <code>skills/stock-reply/SKILL.md</code> 只写黄金路径：何时查库存、草稿字段、何时必须停手、何时交给检查员。脚本、模板、字段表可以放在同目录，并在 Skill 正文里写清「什么时候读哪个文件」。
+      </p>
+      <pre><code>---
+name: stock-reply
+description: 处理能否发货咨询。先查库存，再写 outbox 草稿，最后交给 draft-auditor。
+---
+
+# stock-reply
+
+1. 用 lookup_stock 查 SKU；NOT_FOUND 或数量不足就停，并写明原因。
+2. 草稿必须包含 sku、qty、结论、建议话术；结论必须能回溯到工具返回。
+3. 写完后调用 draft-auditor。REJECT 则改草稿，不要直接 notify_email。
+4. 只有 PASS 且人类批准后，才允许发送。</code></pre>
+      <ul class="checks">
+        <li>
+          <input type="checkbox" id="n3-skill" data-check="n3-skill">
+          <label for="n3-skill">已为黄金路径写好一个 <code>SKILL.md</code>，并在 <code>create_deep_agent(..., skills=...)</code> 里挂上。</label>
+        </li>
+        <li>
+          <input type="checkbox" id="n3-audit" data-check="n3-audit">
+          <label for="n3-audit">检查员是独立子 Agent：默认只读，不发送，不与主 Agent 共用「写完就算过」的提示词。</label>
+        </li>
+        <li>
+          <input type="checkbox" id="n3-reject" data-check="n3-reject">
+          <label for="n3-reject">用一份故意写错库存结论的草稿跑过检查员，确认会 REJECT。</label>
+        </li>
+        <li>
+          <input type="checkbox" id="n3-gold" data-check="n3-gold">
+          <label for="n3-gold">正常单走完「Skill → 草稿 → 独立检查 → 人类批准」，这才算三晚收工。</label>
+        </li>
+      </ul>
+    </section>
+
+    <section class="panel" id="map">
+      <h2>缰绳五层 → Deep Agents</h2>
+      <p>
+        把业务 Agent 做稳，可以看成五层缰绳。下面只映射到 Deep Agents 你这三晚会用到的接口，方便对照，不是框架全貌。
+      </p>
+      <table>
+        <thead>
+          <tr>
+            <th>缰绳</th>
+            <th>你要它管什么</th>
+            <th>Deep Agents</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>指令</td>
+            <td>角色、边界、成功标准</td>
+            <td><code>system_prompt</code>、<code>memory</code> / <code>AGENTS.md</code></td>
+          </tr>
+          <tr>
+            <td>约束</td>
+            <td>能碰哪些文件、哪些工具必须停</td>
+            <td><code>permissions</code>、<code>interrupt_on</code></td>
+          </tr>
+          <tr>
+            <td>反馈</td>
+            <td>人能改判、中断后还能续跑</td>
+            <td>HITL + <code>checkpointer</code>；工具返回与拒绝原因</td>
+          </tr>
+          <tr>
+            <td>能力记忆</td>
+            <td>流程可复用，偏好能留下</td>
+            <td><code>skills</code>、<code>memory</code>、backend / store 上的文件</td>
+          </tr>
+          <tr>
+            <td>编排</td>
+            <td>主路径、委派、验收分工</td>
+            <td><code>subagents</code>、<code>task</code>、可选的 <code>write_todos</code></td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="note">
+        今晚先指令，明晚先约束和反馈，后天补能力记忆与编排。五层都「听说过」不算做完；黄金路径上五层都有落点才算。
+      </p>
+    </section>
+
+    <section class="panel" id="skip">
+      <h2>这三晚先跳过</h2>
+      <p>
+        下面这些都值得以后看，但会把「做稳一条业务路径」带跑。三晚内遇到它们，记个链接就关页。
+      </p>
+      <div class="skip-grid">
+        <div class="skip-item">
+          <strong>Pi</strong>
+          <p>另一条极简 coding agent 跑道。先别换壳，Deep Agents 的锁还没上完。</p>
+        </div>
+        <div class="skip-item">
+          <strong>Codex</strong>
+          <p>OpenAI 的 coding agent 产品线。和业务 harness 不是同一周的作业。</p>
+        </div>
+        <div class="skip-item">
+          <strong>dsh</strong>
+          <p>DeepSeek Harness 自己的组装方式。API 与心智模型都不同，并行学必混。</p>
+        </div>
+        <div class="skip-item">
+          <strong>老金50篇</strong>
+          <p>Claude Code / OpenClaw / Codex / WorkBuddy 的大部头教程。三晚读不完，也不是本页的交付。</p>
+        </div>
+        <div class="skip-item">
+          <strong>Claude sourcemaps</strong>
+          <p>从 Claude Code 的 source map 还原源码。研究 Agent OS 很好，对今晚的说明书没有帮助。</p>
+        </div>
+        <div class="skip-item">
+          <strong>OpenClaw</strong>
+          <p>个人助手 / 多平台接入框架。先把一条业务路径箍住，再考虑养一只全天候助手。</p>
+        </div>
+        <div class="skip-item">
+          <strong>WorkBuddy</strong>
+          <p>面向国内办公场景的助手产品。集成企业微信之前，先证明黄金路径在你自己的工具上能停能查。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" id="links">
+      <h2>对照链接</h2>
+      <p>读官方文档与仓库，不读转述。橙皮书只作缰绳层的对照，不在本页展开正文。</p>
+      <ul class="links">
+        <li>
+          <a href="https://docs.langchain.com/oss/python/deepagents/overview">Deep Agents 文档 · Overview</a>
+          <small>harness 能力总览与 Quickstart</small>
+        </li>
+        <li>
+          <a href="https://github.com/langchain-ai/deepagents">github.com/langchain-ai/deepagents</a>
+          <small>库本身；以仓库与文档为准，不以博客摘抄为准</small>
+        </li>
+        <li>
+          <a href="https://docs.langchain.com/oss/python/deepagents/human-in-the-loop">Human-in-the-loop</a>
+          <small><code>interrupt_on</code>、批准 / 拒绝 / 续跑</small>
+        </li>
+        <li>
+          <a href="https://docs.langchain.com/oss/python/deepagents/skills">Skills</a>
+          <small><code>SKILL.md</code>、渐进披露、挂载 <code>skills=</code></small>
+        </li>
+        <li>
+          <a href="https://docs.langchain.com/oss/python/deepagents/permissions">Permissions</a>
+          <small><code>FilesystemPermission</code> 的 allow / deny / interrupt</small>
+        </li>
+        <li>
+          <a href="https://github.com/alchaincyf/harness-engineering-orange-book">Harness Engineering 橙皮书仓库</a>
+          <small>缰绳五层的对照读物；本页不复制 PDF 正文</small>
+        </li>
+        <li>
+          <a href="https://github.com/KimYx0207/AI-Coding-Guide-Zh">AI-Coding-Guide-Zh</a>
+          <small>老金50篇入口。三晚跳过，收工后再按需打开</small>
+        </li>
+      </ul>
+    </section>
+
+    <footer class="colophon">
+      <p>
+        勾选状态保存在本机 <code>localStorage</code>，键名为 <code>deep-agent-learn-checks-v1</code>。换浏览器或清站点数据会丢失；它只是学习进度，不是同步服务。
+      </p>
+      <p class="progress" id="progress" aria-live="polite"></p>
+      <p><a href="index.html">← 返回学习站首页</a></p>
+    </footer>
+  </div>
+
+  <script>
+    (function () {
+      var KEY = "deep-agent-learn-checks-v1";
+      var boxes = Array.prototype.slice.call(
+        document.querySelectorAll('input[type="checkbox"][data-check]')
+      );
+      var state = {};
+      try {
+        state = JSON.parse(localStorage.getItem(KEY) || "{}") || {};
+      } catch (err) {
+        state = {};
+      }
+
+      function persist() {
+        var next = {};
+        boxes.forEach(function (box) {
+          next[box.getAttribute("data-check")] = !!box.checked;
+        });
+        localStorage.setItem(KEY, JSON.stringify(next));
+        var done = boxes.filter(function (box) { return box.checked; }).length;
+        var node = document.getElementById("progress");
+        if (node) {
+          node.textContent = "清单进度：" + done + " / " + boxes.length;
+        }
+      }
+
+      boxes.forEach(function (box) {
+        var id = box.getAttribute("data-check");
+        box.checked = !!state[id];
+        box.addEventListener("change", persist);
+      });
+      persist();
+    })();
+  </script>
+</body>
+</html>

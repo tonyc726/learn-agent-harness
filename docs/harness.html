@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>源码线 · 按生长顺序读 harness</title>
+  <meta name="description" content="Track B：橙皮书生长顺序，再按文件顺序读 Pi、Codex、DeepSeek Harness。Claude Code 官方仓没有公开循环。">
+  <meta name="theme-color" content="#f4efe6">
+  <link rel="canonical" href="https://tonyc726.github.io/learn-agent-harness/harness.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&family=Noto+Serif+SC:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<nav class="site-nav">
+  <a class="brand" href="index.html">learn-agent-harness</a>
+  <div class="links">
+    <a href="index.html">首页</a>
+    <a href="deep-agent.html">三晚速成</a>
+    <a href="harness.html" class="active">源码线</a>
+    <a href="repos.html">仓库</a>
+    <a href="resources.html">链接</a>
+  </div>
+</nav>
+  <div class="wrap">
+    <p class="eyebrow">Track B · Source path</p>
+    <h1>源码线：先长缰绳，再拆循环</h1>
+    <p class="lead">
+      这条线不是从「最强 Agent」起盘。先按橙皮书的生长顺序把缰绳长出来，再按文件顺序读官方实现。Claude Code 官方仓库只有 changelog 与 plugins，没有可对照的公开循环；不要去做 sourcemap 还原。
+    </p>
+
+    <section class="panel">
+      <h2>橙皮书生长顺序</h2>
+      <p>能力按这个顺序加，不要一上来上多 Agent。</p>
+      <ol>
+        <li><strong>空的 <code>AGENTS.md</code></strong>：只写角色、边界、成功长什么样。</li>
+        <li><strong>出错就加一条规则</strong>：每次真实失败，收成一条可执行约束，而不是再写一段口号。</li>
+        <li><strong>接上反馈</strong>：可验收输出、日志、检查清单。模型看不到的错误，等于没发生。</li>
+        <li><strong>hooks / CI / sandbox</strong>：把「不能做」从自觉改成机械门闩。</li>
+        <li><strong>skills / MCP</strong>：领域流程可复用之后，再接外部工具。</li>
+        <li><strong>多 Agent 放最后</strong>：一条路径还箍不住时，加子 Agent 只会放大含糊。</li>
+      </ol>
+      <p class="note">
+        Track A 的三晚只对照 §01 / §04 / §10。Track B 才按上面的顺序把整条缰绳长完。不摘录橙皮书正文。
+      </p>
+    </section>
+
+    <section class="panel">
+      <h2>官方文件阅读顺序</h2>
+      <p>读官方文件，不读转述，不还原闭源 sourcemap。</p>
+      <h3>1. Pi</h3>
+      <ul>
+        <li><a href="https://github.com/earendil-works/pi/blob/main/packages/agent/src/agent-loop.ts"><code>packages/agent/src/agent-loop.ts</code></a> — 模型回合与工具调用怎么转。</li>
+        <li><a href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/core/agent-session.ts"><code>packages/coding-agent/src/core/agent-session.ts</code></a> — 会话、持久化、压缩、生命周期。</li>
+      </ul>
+      <h3>2. Codex</h3>
+      <ul>
+        <li><a href="https://github.com/openai/codex/blob/main/codex-rs/core/src/session/turn.rs"><code>codex-rs/core/src/session/turn.rs</code></a> — 一回合怎么推进。</li>
+        <li><a href="https://github.com/openai/codex/blob/main/codex-rs/core/src/tools/orchestrator.rs"><code>codex-rs/core/src/tools/orchestrator.rs</code></a> — 工具批准、重试、升级。</li>
+        <li><a href="https://github.com/openai/codex/blob/main/codex-rs/core/src/tools/sandboxing.rs"><code>codex-rs/core/src/tools/sandboxing.rs</code></a> — 沙箱策略怎么落到一次执行。</li>
+      </ul>
+      <h3>3. DeepSeek Harness（dsh）</h3>
+      <ol>
+        <li><a href="https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/architecture.md"><code>docs/architecture.md</code></a></li>
+        <li><a href="https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/cordis-primer.md"><code>docs/cordis-primer.md</code></a></li>
+        <li><a href="https://github.com/deepseek-ai/deepseek-harness/tree/master/docs/cordis-tutorial">Cordis tutorial 01–07</a></li>
+        <li><a href="https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/cookbook/adding-a-tool.md"><code>docs/cookbook/adding-a-tool.md</code></a></li>
+        <li><a href="https://github.com/deepseek-ai/deepseek-harness/blob/master/packages/core/agent-loop/src/agent.ts"><code>packages/core/agent-loop/src/agent.ts</code></a></li>
+      </ol>
+      <h3>Claude Code：到此为止</h3>
+      <p>
+        <a href="https://github.com/anthropics/claude-code">anthropics/claude-code</a> 公开的是 changelog 与 plugins，没有公开的 agent loop。本站不收录、不还原任何 sourcemap。研究循环请去 Pi / Codex / dsh。
+      </p>
+    </section>
+
+    <section class="panel">
+      <h2>0–6 周课表</h2>
+      <p>每周只交付一个能跑的增量。前三周可以继续用 Deep Agents；后三周才拆别人的文件。</p>
+      <table>
+        <thead>
+          <tr>
+            <th>周</th>
+            <th>缰绳动作</th>
+            <th>对照</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>0</td>
+            <td>写下空的 <code>AGENTS.md</code>：角色、边界、成功标准。不接新工具。</td>
+            <td>橙皮书生长第 1 步；Deep Agents Overview</td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>每出现一次真实错误，加一条规则。说明书只增不改题。</td>
+            <td>出错就加规则</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>接上反馈：结构化输出、日志、检查清单。模型看不见的失败，当成没发生。</td>
+            <td>反馈层</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>hooks / CI / sandbox。把危险动作改成门闩，而不是提示词里的「请不要」。</td>
+            <td>Pi <code>agent-loop.ts</code> + <code>agent-session.ts</code></td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>skills / MCP。领域流程可复用之后，再接外部工具。</td>
+            <td>Codex <code>turn.rs</code> + <code>orchestrator.rs</code> + sandboxing</td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td>读 dsh 怎么把一切做成插件。先架构与 Cordis，再动手加工具。</td>
+            <td><code>architecture.md</code> → cordis-primer → tutorial 01–07</td>
+          </tr>
+          <tr>
+            <td>6</td>
+            <td>补一个工具，再读默认循环。多 Agent 仍放最后——一条路径不稳就不拆成一群人。</td>
+            <td><code>adding-a-tool.md</code> → <code>agent.ts</code></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  <footer class="colophon">
+    <p>静态学习站。不转载橙皮书 PDF，也不摘录其正文。对照请打开官方仓库与文档。</p>
+  </footer>
+</div>
+</body>
+</html>
