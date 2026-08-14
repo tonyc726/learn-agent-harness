@@ -13,13 +13,13 @@
   ];
 
   var LEVELS = [
-    { id: 0, title: "口头开了", lamps: ["auth"], slot: "自然语言确认 ≠ 授权；commit 不在工具清单" },
-    { id: 1, title: "合同", lamps: ["boundary"], slot: "五句话合同" },
-    { id: 2, title: "只读投影", lamps: ["boundary"], slot: "安全投影清单" },
-    { id: 3, title: "停用草稿", lamps: ["txn"], slot: "停用草稿回执" },
-    { id: 4, title: "确认坞", lamps: ["auth"], slot: "键入「批准」的坞条" },
-    { id: 5, title: "旧卡作废", lamps: ["version"], slot: "版本不匹配回执" },
-    { id: 6, title: "对账", lamps: ["known", "retry"], slot: "停止生成 ≠ 取消 CI；unknown 已收敛" }
+    { id: 0, title: "口头「开了」不能写库", lamps: ["auth"], slot: "自然语言确认 ≠ 授权；commit 不在工具清单", stem: "聊天里说开了，库里没写。" },
+    { id: 1, title: "先写说明书", lamps: ["boundary"], slot: "五句话说明书", stem: "只开门禁，不许发版。" },
+    { id: 2, title: "密文不准进对话", lamps: ["boundary"], slot: "安全投影清单", stem: "模型只看干净摘要。" },
+    { id: 3, title: "先停用，再申请启用", lamps: ["txn"], slot: "停用草稿回执", stem: "练习任务：红了先通知，不要自动发版。" },
+    { id: 4, title: "确认坞：模型不能自己提交", lamps: ["auth"], slot: "键入「批准」的坞条", stem: "你点确认才提交。" },
+    { id: 5, title: "旧确认必须作废", lamps: ["version"], slot: "版本不匹配回执", stem: "批准的必须是你看见的那一版。" },
+    { id: 6, title: "对话停了，CI 还在", lamps: ["known", "retry"], slot: "停止生成 ≠ 取消 CI；unknown 已收敛", stem: "断了去对账，别瞎重试。" }
   ];
 
   function emptyState() {
@@ -135,6 +135,7 @@
         '<span class="mark" aria-hidden="true"></span>' +
         '<span class="idx">第 ' + lv.id + " 关</span>" +
         "<strong>" + lv.title + "</strong>" +
+        (lv.stem ? "<p class=\"stem\">" + lv.stem + "</p>" : "") +
         "<p>" + (done ? "证物已在坞里。" : now ? "当前。先挨打。" : openHere ? "可进。" : "上一关的证物还没有。") + "</p>";
       if (openHere) {
         return '<li class="' + cls + '"><a href="play.html?lv=' + lv.id + '">' + inner + "</a></li>";

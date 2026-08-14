@@ -1,10 +1,12 @@
 # learn-agent-harness
 
-一门差事：让 Agent 安全启用「CI 红了先通知你，不要自动发版」。
+别把模型当成整个 Agent。模型会说话；真正改系统的是你在外面加的规矩。那套规矩叫 harness。
 
 线上地址：<https://tonyc726.github.io/learn-agent-harness/>
 
 本仓库是一个静态 GitHub Pages 站点。证物存在浏览器 `localStorage`，键名 `ci-gate-campaign-v1`。下一关在证物齐之前是锁的。不转载橙皮书 PDF，也不摘录其正文。
+
+CI「红了先通知你、不要自动发版」只是练习用的假任务。你要学的不是 Jenkins，是怎么给模型套缰绳。
 
 ## 本地预览
 
@@ -16,17 +18,17 @@ python3 -m http.server -d docs 8080
 
 ## 闯关
 
-你是开发者。CI 已经配好。群里已经有聊天机器人。只做这一条。
+打完你会：写清说明书、危险动作只申请你确认、密文不准进对话、旧确认作废、对话停了去对账。
 
 | 关 | 证物 |
 | --- | --- |
-| 0 口头开了 | 自然语言确认 ≠ 授权；commit 不在工具清单 |
-| 1 合同 | 五句话：你是谁、成功、工具、工作区、停手 |
-| 2 只读投影 | id / revision / status / summary，无密钥 |
-| 3 停用草稿 | 停用回执（rule id + revision） |
-| 4 确认坞 | 键入「批准」 |
-| 5 旧卡作废 | 版本不匹配回执 |
-| 6 对账 | 停止生成 ≠ 取消 CI；unknown 按 intent 收敛 |
+| 0 口头「开了」不能写库 | 自然语言确认 ≠ 授权；commit 不在工具清单 |
+| 1 先写说明书 | 五句话：你是谁、成功、工具、工作区、停手 |
+| 2 密文不准进对话 | id / revision / status / summary，无密钥 |
+| 3 先停用，再申请启用 | 停用回执（rule id + revision） |
+| 4 确认坞：模型不能自己提交 | 键入「批准」 |
+| 5 旧确认必须作废 | 版本不匹配回执 |
+| 6 对话停了，CI 还在 | 停止生成 ≠ 取消 CI；unknown 按 intent 收敛 |
 
 每关四拍：先挨打、先回忆再讲、先做再给答案、过关看证物。没有分数。
 
@@ -40,7 +42,7 @@ python3 -m http.server -d docs 8080
 
 | 页面 | 内容 |
 | --- | --- |
-| `docs/index.html` | 闯关地图 |
+| `docs/index.html` | 先说你会什么，再进闯关地图 |
 | `docs/play.html` | 关卡 |
 | `docs/harness.html` | 源码线 |
 | `docs/repos.html` | 官方仓库对照表 |

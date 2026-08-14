@@ -684,3 +684,58 @@ body.is-game .site-nav,
   .dock { position: static; }
   .compare { grid-template-columns: 1fr; }
 }
+
+/* —— 首页：先说你会什么 —— */
+.wrap-game.open-learn {
+  padding: 1.05rem 0 0.35rem;
+  display: block;
+}
+
+.wrap-game.open-learn h1 {
+  font-size: clamp(1.55rem, 3.6vw, 2.15rem);
+  margin-bottom: 0.45rem;
+}
+
+.wrap-game.open-learn .lead {
+  margin-bottom: 0.85rem;
+}
+
+.outcomes {
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  border-radius: 16px;
+  padding: 0.9rem 1.05rem 0.95rem;
+  margin: 0 0 0.75rem;
+}
+
+.outcomes h2 {
+  font-size: 1.05rem;
+  margin: 0 0 0.4rem;
+}
+
+.outcomes ol {
+  margin: 0;
+  padding-left: 1.25rem;
+}
+
+.outcomes li {
+  margin: 0.28rem 0;
+  font-size: 0.96rem;
+}
+
+.practice-note {
+  color: var(--muted);
+  font-size: 0.95rem;
+  margin: 0 0 0.85rem;
+  max-width: 42rem;
+}
+
+.wrap-game.open-learn + .lamps-bar {
+  margin-top: 0.55rem;
+}
+
+.trail .stem {
+  margin: 0.12rem 0 0;
+  color: var(--ink);
+  font-size: 0.94rem;
+}

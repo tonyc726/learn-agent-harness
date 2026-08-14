@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>闯关 · 红了先通知</title>
-  <meta name="description" content="让 Agent 安全启用「CI 红了先通知你，不要自动发版」。先挨打，再回忆，先做，过关看证物。">
+  <title>闯关 · 给模型套缰绳</title>
+  <meta name="description" content="学的是 harness：说明书、确认坞、密文隔离、旧确认作废。CI 只是练习用的假任务。">
   <meta name="theme-color" content="#f4efe6">
   <link rel="canonical" href="https://tonyc726.github.io/learn-agent-harness/play.html">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -30,7 +30,8 @@
 
     <article class="level panel" data-level="0" hidden>
       <p class="eyebrow">第 0 关 · 序章</p>
-      <h1>口头开了</h1>
+      <h1>口头「开了」不能写库</h1>
+      <p class="lead">练习：口头说「开了」，什么也没写进库。</p>
 
       <section class="beat" data-beat="fail">
         <p class="beat-kicker">先挨打</p>
@@ -76,7 +77,7 @@
         <p class="beat-kicker">过关看证物</p>
         <p>聊天里的「好了」不是门闩。启用必须经过确认坞。模型看不见 commit。</p>
         <div class="actions" data-next hidden>
-          <a class="btn" href="play.html?lv=1">下一关 · 合同</a>
+          <a class="btn" href="play.html?lv=1">下一关 · 先写说明书</a>
           <a class="btn btn-ghost" href="index.html">回地图</a>
         </div>
       </section>
@@ -84,7 +85,8 @@
 
     <article class="level panel" data-level="1" hidden>
       <p class="eyebrow">第 1 关</p>
-      <h1>合同</h1>
+      <h1>先写说明书</h1>
+      <p class="lead">练习任务：说明书写清只开门禁，不许发版。</p>
 
       <section class="beat" data-beat="fail">
         <p class="beat-kicker">先挨打</p>
@@ -150,7 +152,7 @@
 工作区：只读写约定目录。草稿与回执分开。
 停手：缺权限、有人要发版、或偏离通知规则时，写明原因并等待。</code></pre>
         <div class="actions" data-next hidden>
-          <a class="btn" href="play.html?lv=2">下一关 · 只读投影</a>
+          <a class="btn" href="play.html?lv=2">下一关 · 密文不准进对话</a>
           <a class="btn btn-ghost" href="index.html">回地图</a>
         </div>
       </section>
@@ -158,7 +160,8 @@
 
     <article class="level panel" data-level="2" hidden>
       <p class="eyebrow">第 2 关</p>
-      <h1>只读投影</h1>
+      <h1>密文不准进对话</h1>
+      <p class="lead">练习：密钥、token 不准进对话。模型只看干净摘要。</p>
 
       <section class="beat" data-beat="fail">
         <p class="beat-kicker">先挨打</p>
@@ -245,7 +248,7 @@
   "summary": "test failed"
 }</code></pre>
         <div class="actions" data-next hidden>
-          <a class="btn" href="play.html?lv=3">下一关 · 停用草稿</a>
+          <a class="btn" href="play.html?lv=3">下一关 · 先停用，再申请启用</a>
           <a class="btn btn-ghost" href="index.html">回地图</a>
         </div>
       </section>
@@ -253,7 +256,8 @@
 
     <article class="level panel" data-level="3" hidden>
       <p class="eyebrow">第 3 关</p>
-      <h1>停用草稿</h1>
+      <h1>先停用，再申请启用</h1>
+      <p class="lead">练习任务：先停用「红了先通知」，再申请启用。</p>
 
       <section class="beat" data-beat="fail">
         <p class="beat-kicker">先挨打</p>
@@ -313,7 +317,7 @@ revision: r1
 enabled: false
 writes_this_turn: 1</code></pre>
         <div class="actions" data-next hidden>
-          <a class="btn" href="play.html?lv=4">下一关 · 确认坞</a>
+          <a class="btn" href="play.html?lv=4">下一关 · 确认坞：模型不能自己提交</a>
           <a class="btn btn-ghost" href="index.html">回地图</a>
         </div>
       </section>
@@ -321,7 +325,8 @@ writes_this_turn: 1</code></pre>
 
     <article class="level panel" data-level="4" hidden>
       <p class="eyebrow">第 4 关</p>
-      <h1>确认坞</h1>
+      <h1>确认坞：模型不能自己提交</h1>
+      <p class="lead">练习：启用必须你确认，模型不能自己提交。</p>
 
       <section class="beat" data-beat="fail">
         <p class="beat-kicker">先挨打</p>
@@ -383,7 +388,7 @@ revision: r1
 commit_by: human
 model_commit: false</code></pre>
         <div class="actions" data-next hidden>
-          <a class="btn" href="play.html?lv=5">下一关 · 旧卡作废</a>
+          <a class="btn" href="play.html?lv=5">下一关 · 旧确认必须作废</a>
           <a class="btn btn-ghost" href="index.html">回地图</a>
         </div>
       </section>
@@ -391,7 +396,8 @@ model_commit: false</code></pre>
 
     <article class="level panel" data-level="5" hidden>
       <p class="eyebrow">第 5 关</p>
-      <h1>旧卡作废</h1>
+      <h1>旧确认必须作废</h1>
+      <p class="lead">练习：有人改过规则，旧确认作废。批准的必须是你看见的那一版。</p>
 
       <section class="beat" data-beat="fail">
         <p class="beat-kicker">先挨打</p>
@@ -447,7 +453,7 @@ current_revision: r2
 token: revoked
 enable_colleague_config: refused</code></pre>
         <div class="actions" data-next hidden>
-          <a class="btn" href="play.html?lv=6">下一关 · 对账</a>
+          <a class="btn" href="play.html?lv=6">下一关 · 对话停了，CI 还在</a>
           <a class="btn btn-ghost" href="index.html">回地图</a>
         </div>
       </section>
@@ -455,7 +461,8 @@ enable_colleague_config: refused</code></pre>
 
     <article class="level panel" data-level="6" hidden>
       <p class="eyebrow">第 6 关</p>
-      <h1>对账</h1>
+      <h1>对话停了，CI 还在</h1>
+      <p class="lead">练习：对话停了，CI 还在；断了去对账，别瞎重试。</p>
 
       <section class="beat" data-beat="fail">
         <p class="beat-kicker">先挨打</p>
@@ -536,7 +543,7 @@ twopc: false</code></pre>
     <article class="level panel" data-level="end" hidden>
       <p class="eyebrow">收束</p>
       <h1>门在坞里</h1>
-      <p class="ending-line">口头确认不是授权。合同、投影、草稿、确认坞、旧卡、对账——这条通知规则现在能被安全启用。</p>
+      <p class="ending-line">口头「开了」不能写库。说明书、密文隔离、先停用再申请、确认坞、旧确认作废、对话停了 CI 还在——你要学的是给模型套缰绳。</p>
       <a class="card plus-locked" href="harness.html">
         <span class="when">新游戏+</span>
         <strong>源码线</strong>

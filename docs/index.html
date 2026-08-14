@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>红了先通知，不要自动发版</title>
-  <meta name="description" content="一门差事：让 Agent 安全启用「CI 红了先通知你，不要自动发版」。过关看证物。">
+  <title>别把模型当成整个 Agent</title>
+  <meta name="description" content="模型会说话；真正改系统的是你在外面加的规矩。那套规矩叫 harness。打完你会写说明书、确认坞、密文隔离和旧确认作废。">
   <meta name="theme-color" content="#f4efe6">
   <link rel="canonical" href="https://tonyc726.github.io/learn-agent-harness/index.html">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -22,14 +22,29 @@
     <a href="resources.html">链接</a>
   </div>
 </nav>
+<div class="wrap-game single open-learn">
+  <p class="eyebrow">学的是 harness</p>
+  <h1>别把模型当成整个 Agent</h1>
+  <p class="lead">
+    模型会说话；真正改系统的是你在外面加的规矩。那套规矩叫 harness。
+  </p>
+  <div class="outcomes" id="outcomes">
+    <h2>打完你会什么</h2>
+    <ol>
+      <li>说明书写清：它只开门禁，不许发版。（system_prompt）</li>
+      <li>危险动作只能申请，你点确认才提交。聊天里说「开了」不算。</li>
+      <li>密钥、token 不准进对话。模型只看干净摘要。</li>
+      <li>有人改过规则，旧确认作废。批准的必须是你看见的那一版。</li>
+      <li>构建/通知和对话不是一回事。对话停了 CI 还在；断了去对账，别瞎重试。</li>
+    </ol>
+  </div>
+  <p class="practice-note">CI「红了先通知你、不要自动发版」只是练习用的假任务。你要学的不是 Jenkins，是怎么给模型套缰绳。</p>
+  <p class="actions"><a class="btn" href="play.html?lv=0">从第 0 关开始</a></p>
+</div>
 <div class="lamps-bar" id="lamps" aria-label="六性"></div>
 <div class="wrap-game">
   <div class="quest">
-    <p class="eyebrow">闯关 · 一门差事</p>
-    <h1>红了先通知，不要自动发版</h1>
-    <p class="lead">
-      你是开发者。CI 已经配好。群里已经有聊天机器人。只让 Agent 安全启用这一条。不要发版。
-    </p>
+    <p class="eyebrow">闯关地图</p>
     <ol class="trail" id="trail"></ol>
     <p class="quiet-reset">
       <button type="button" id="reset-campaign">清空本机证物，重开</button>
