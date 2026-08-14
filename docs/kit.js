@@ -6,6 +6,7 @@
   var CHAPTERS = [
     {
       id: 0,
+      key: "llm",
       file: "llm.ts",
       title: "先能问到模型",
       stem: "没有这一层，循环对着空气说话。",
@@ -43,6 +44,7 @@
     },
     {
       id: 1,
+      key: "agent",
       file: "agent.ts",
       title: "让模型用得上工具",
       stem: "一次 stream 结束就散了，工具结果回不去。",
@@ -80,6 +82,7 @@
     },
     {
       id: 2,
+      key: "tools",
       file: "tools.ts",
       title: "四个纯函数干活",
       stem: "循环只会调度。读、写、改、跑命令在这里。",
@@ -116,6 +119,7 @@
     },
     {
       id: 3,
+      key: "tui",
       file: "tui.ts",
       title: "屏幕只认 AgentEvent",
       stem: "循环在黑盒里转，你看不见，也拦不住。",
@@ -147,6 +151,7 @@
     },
     {
       id: 4,
+      key: "cli",
       file: "cli.ts",
       title: "胶水，加上一本账",
       stem: "零件不会自己握手。会话不落盘，一关终端就忘。",
@@ -180,8 +185,25 @@
     }
   ];
 
+  var FILE_KEYS = ["llm", "agent", "tools", "tui", "cli"];
+  var HASHES = ["intro", "llm", "agent", "tools", "tui", "cli", "flow"];
+  var CH_REDIRECT = {
+    "0": "llm",
+    "1": "agent",
+    "2": "tools",
+    "3": "tui",
+    "4": "cli",
+    end: "flow"
+  };
+
+  var state = { lock: false, lastFile: null };
+  var revealed = 0;
+  var shown = null;
+  var sheetOpen = false;
+  var inView = {};
+
   function emptyState() {
-    return { artifacts: {} };
+    return { lock: false, lastFile: null };
   }
 
   function load() {
@@ -190,47 +212,26 @@
       if (!raw) return emptyState();
       var data = JSON.parse(raw);
       if (!data || typeof data !== "object") return emptyState();
-      if (!data.artifacts || typeof data.artifacts !== "object") data.artifacts = {};
-      return data;
+      var last = data.lastFile;
+      if (FILE_KEYS.indexOf(last) === -1) last = null;
+      return { lock: !!data.lock, lastFile: last };
     } catch (err) {
       return emptyState();
     }
   }
 
-  function save(state) {
-    localStorage.setItem(KEY, JSON.stringify(state));
+  function save(next) {
+    localStorage.setItem(KEY, JSON.stringify({
+      lock: !!next.lock,
+      lastFile: next.lastFile || null
+    }));
   }
 
-  function hasArtifact(state, id) {
-    return !!(state.artifacts && state.artifacts[String(id)]);
-  }
-
-  function unlocked(state, id) {
-    if (id === 0) return true;
-    if (id === "end") return CHAPTERS.every(function (ch) { return hasArtifact(state, ch.id); });
-    return hasArtifact(state, id - 1);
-  }
-
-  function firstOpen(state) {
+  function chapterByKey(key) {
     for (var i = 0; i < CHAPTERS.length; i++) {
-      if (!hasArtifact(state, CHAPTERS[i].id)) return CHAPTERS[i].id;
+      if (CHAPTERS[i].key === key) return CHAPTERS[i];
     }
-    return "end";
-  }
-
-  function putArtifact(state, id) {
-    var ch = CHAPTERS[id];
-    state.artifacts[String(id)] = {
-      file: ch.file,
-      title: ch.title,
-      at: new Date().toISOString()
-    };
-    save(state);
-    return state;
-  }
-
-  function clearAll() {
-    localStorage.removeItem(KEY);
+    return null;
   }
 
   function escapeHtml(s) {
@@ -248,202 +249,160 @@
     return Array.prototype.slice.call((root || document).querySelectorAll(sel));
   }
 
-  function tokensOf(value) {
-    return String(value || "")
-      .toLowerCase()
-      .split(/[\s,，、/|]+/)
-      .map(function (t) { return t.replace(/^\./, ""); })
-      .filter(Boolean);
+  function progressPct() {
+    return Math.round((revealed / 5) * 100);
   }
 
-  function hasAll(value, needed) {
-    var got = tokensOf(value);
-    return needed.every(function (n) { return got.indexOf(n) !== -1; });
+  function renderProgress() {
+    var chip = qs("#progress-chip");
+    if (chip) chip.textContent = "查看代码 " + progressPct() + "%";
   }
 
-  function renderFiles(root, state, current) {
+  function renderChips() {
+    var root = qs("#kit-chips");
     if (!root) return;
-    root.innerHTML = CHAPTERS.map(function (ch) {
-      var on = hasArtifact(state, ch.id);
-      var now = String(current) === String(ch.id);
+    root.innerHTML = CHAPTERS.slice(0, revealed).map(function (ch) {
+      var on = shown === ch.key;
       return (
-        '<span class="lamp' + (on ? " on" : "") + (now ? " now" : "") + '">' +
-          '<i class="dot" aria-hidden="true"></i>' +
-          ch.file +
-        "</span>"
+        '<button type="button" class="kit-chip' + (on ? " is-on" : "") + '" data-key="' +
+        ch.key +
+        '">' +
+        ch.file +
+        "</button>"
       );
     }).join("");
   }
 
-  function renderRail(root, state, current) {
-    if (!root) return;
-    var parts = CHAPTERS.map(function (ch, i) {
-      var href = "play.html?ch=" + ch.id;
-      var label = ch.file;
-      var html;
-      if (String(current) === String(ch.id)) {
-        html = '<a class="now" href="' + href + '">' + label + "</a>";
-      } else if (hasArtifact(state, ch.id)) {
-        html = '<a class="done" href="' + href + '">' + label + "</a>";
-      } else if (unlocked(state, ch.id)) {
-        html = '<a href="' + href + '">' + label + "</a>";
-      } else {
-        html = '<span class="lock">' + label + "</span>";
-      }
-      if (i < CHAPTERS.length - 1) html += '<span class="seg" aria-hidden="true">·</span>';
-      return html;
-    });
-    if (unlocked(state, "end")) {
-      parts.push('<span class="seg" aria-hidden="true">·</span>');
-      parts.push(
-        current === "end"
-          ? '<a class="now" href="play.html?ch=end">收束</a>'
-          : '<a class="done" href="play.html?ch=end">收束</a>'
-      );
+  function renderLock() {
+    var btn = qs("#kit-lock");
+    if (!btn) return;
+    btn.textContent = state.lock ? "已锁" : "锁住";
+    btn.setAttribute("aria-pressed", state.lock ? "true" : "false");
+    btn.classList.toggle("is-locked", state.lock);
+  }
+
+  function setSheet(open) {
+    sheetOpen = !!open;
+    var dock = qs("#kit-dock");
+    if (dock) dock.classList.toggle("is-open", sheetOpen);
+    document.body.classList.toggle("kit-open", sheetOpen);
+    var btn = qs("#kit-sheet-toggle");
+    if (btn) {
+      btn.textContent = sheetOpen ? "收起" : "打开";
+      btn.setAttribute("aria-expanded", sheetOpen ? "true" : "false");
     }
-    root.innerHTML = parts.join("");
   }
 
-  function renderMap(root, state) {
-    if (!root) return;
-    var open = firstOpen(state);
-    root.innerHTML = CHAPTERS.map(function (ch) {
-      var done = hasArtifact(state, ch.id);
-      var openHere = unlocked(state, ch.id);
-      var now = String(open) === String(ch.id);
-      var cls = done ? "done" : now ? "now" : openHere ? "" : "locked";
-      var inner =
-        '<span class="mark" aria-hidden="true"></span>' +
-        '<span class="idx">' + ch.file + "</span>" +
-        "<strong>" + ch.title + "</strong>" +
-        "<p class=\"stem\">" + ch.stem + "</p>" +
-        "<p>" + (done ? "已在工具箱。" : now ? "当前。先看这一件为什么在。" : openHere ? "可进。" : "上一件还没装入。") + "</p>";
-      if (openHere) {
-        return '<li class="' + cls + '"><a href="play.html?ch=' + ch.id + '">' + inner + "</a></li>";
-      }
-      return '<li class="' + cls + '"><div class="dead">' + inner + "</div></li>";
-    }).join("");
+  function revealUpTo(key) {
+    var idx = FILE_KEYS.indexOf(key);
+    if (idx < 0) return;
+    var next = idx + 1;
+    if (next > revealed) {
+      revealed = next;
+      renderChips();
+      renderProgress();
+    }
   }
 
-  function renderKit(root, state, currentId) {
-    if (!root) return;
-    var blocks = [];
-    CHAPTERS.forEach(function (ch) {
-      var inKit = hasArtifact(state, ch.id);
-      var isCurrent = currentId !== undefined && currentId !== "end" && Number(currentId) === ch.id;
-      if (!inKit && !isCurrent) return;
-      var tag = inKit ? "已装入" : "正在看";
-      blocks.push(
-        '<div class="kit-file' + (inKit ? " in" : " draft") + (isCurrent ? " current" : "") + '">' +
-          '<p class="kit-name">' + ch.file + " · " + tag + "</p>" +
-          "<pre><code>" + escapeHtml(ch.sample) + "</code></pre>" +
-        "</div>"
-      );
-    });
-    if (!blocks.length) {
-      root.innerHTML = '<p class="empty">还是空的。从 llm.ts 装第一件。</p>';
+  function showFile(key) {
+    var ch = chapterByKey(key);
+    if (!ch) return;
+    shown = key;
+    state.lastFile = key;
+    save(state);
+    var label = qs("#kit-file");
+    if (label) label.textContent = ch.file;
+    var body = qs("#kit-body");
+    if (body) body.innerHTML = "<pre><code>" + escapeHtml(ch.sample) + "</code></pre>";
+    renderChips();
+  }
+
+  function activateSection(el) {
+    if (!el) return;
+    var id = el.id;
+    if (id === "flow") {
+      revealUpTo("cli");
+      if (!state.lock) showFile("cli");
       return;
     }
-    if (CHAPTERS.every(function (ch) { return hasArtifact(state, ch.id); })) {
-      blocks.push('<p class="ok">五件齐了。最小 harness 已经在工具箱里。</p>');
+    if (FILE_KEYS.indexOf(id) === -1) return;
+    revealUpTo(id);
+    if (!state.lock) showFile(id);
+  }
+
+  function hashId() {
+    var h = (window.location.hash || "").replace(/^#/, "");
+    if (HASHES.indexOf(h) === -1) return "intro";
+    return h;
+  }
+
+  function applyHash() {
+    var id = hashId();
+    activateSection(document.getElementById(id));
+  }
+
+  function pickInView() {
+    var current = null;
+    HASHES.forEach(function (id) {
+      if (inView[id]) current = inView[id];
+    });
+    if (current) activateSection(current);
+  }
+
+  function observeSections() {
+    var sections = qsa(".read-article section[id]");
+    if (!sections.length || typeof IntersectionObserver === "undefined") {
+      applyHash();
+      return;
     }
-    root.innerHTML = blocks.join("");
-  }
-
-  function nextHref(id) {
-    if (id === 4) return "play.html?ch=end";
-    return "play.html?ch=" + (id + 1);
-  }
-
-  function nextLabel(id) {
-    if (id === 4) return "收束";
-    return "下一件 · " + CHAPTERS[id + 1].file;
-  }
-
-  function markDone(article, id, state) {
-    var done = qs('[data-beat="done"]', article);
-    if (done) done.hidden = false;
-    var next = qs("[data-next]", article);
-    if (next) {
-      next.hidden = false;
-      var link = qs("a.btn:not(.btn-ghost)", next);
-      if (link) {
-        link.href = nextHref(id);
-        link.textContent = nextLabel(id);
-      }
-    }
-    renderFiles(qs("#files"), state, id);
-    renderRail(qs("#rail"), state, id);
-    renderKit(qs("#kit-body"), state, id);
-  }
-
-  function bindChapter(article, id, state) {
-    var fill = qs("[data-fill]", article);
-    if (fill) {
-      fill.addEventListener("click", function () {
-        if (id === 0) qs("#fill-0", article).value = "text_delta tool_call done error";
-        if (id === 2) qs("#fill-2", article).value = "read_file write_file edit run_bash";
-        qsa('input[type="radio"][value="right"]', article).forEach(function (node) {
-          node.checked = true;
+    var observer = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          var id = entry.target.id;
+          if (entry.isIntersecting) inView[id] = entry.target;
+          else delete inView[id];
         });
-      });
-    }
-
-    var submit = qs("[data-submit]", article);
-    if (!submit) return;
-    submit.addEventListener("click", function () {
-      var err = qs(".err", article);
-      function fail(msg) {
-        if (err) err.textContent = msg;
-      }
-      if (id === 0) {
-        if (!hasAll(qs("#fill-0", article).value, ["text_delta", "tool_call", "done", "error"])) {
-          fail("四种事件：text_delta / tool_call / done / error。");
-          return;
-        }
-      } else if (id === 1) {
-        var a1 = qs('input[name="q1"]:checked', article);
-        if (!a1 || a1.value !== "right") {
-          fail("遇到 tool_call：执行、写回 Context、再问。");
-          return;
-        }
-      } else if (id === 2) {
-        if (!hasAll(qs("#fill-2", article).value, ["read_file", "write_file", "edit", "run_bash"])) {
-          fail("四个名字：read_file write_file edit run_bash。");
-          return;
-        }
-      } else if (id === 3) {
-        var a3 = qs('input[name="q3"]:checked', article);
-        if (!a3 || a3.value !== "right") {
-          fail("终端只认 AgentEvent，不认 HTTP。");
-          return;
-        }
-      } else if (id === 4) {
-        var a4 = qs('input[name="q4"]:checked', article);
-        if (!a4 || a4.value !== "right") {
-          fail("只有 cli 认识所有人。tools 不认识 agent。");
-          return;
-        }
-      }
-      if (err) err.textContent = "";
-      state = putArtifact(load(), id);
-      markDone(article, id, state);
+        pickInView();
+      },
+      { root: null, rootMargin: "-18% 0px -58% 0px", threshold: 0 }
+    );
+    sections.forEach(function (el) {
+      observer.observe(el);
     });
   }
 
-  function initMap() {
-    var state = load();
-    renderFiles(qs("#files"), state);
-    renderMap(qs("#trail"), state);
-    renderKit(qs("#kit-body"), state);
-    var reset = qs("#reset-kit");
-    if (reset) {
-      reset.addEventListener("click", function () {
-        if (!window.confirm("清空本机工具箱，从 llm.ts 重开？")) return;
-        clearAll();
-        window.location.reload();
+  function bindUi() {
+    var lockBtn = qs("#kit-lock");
+    if (lockBtn) {
+      lockBtn.addEventListener("click", function () {
+        state.lock = !state.lock;
+        save(state);
+        renderLock();
       });
     }
+
+    var toggle = qs("#kit-sheet-toggle");
+    if (toggle) {
+      toggle.addEventListener("click", function () {
+        setSheet(!sheetOpen);
+      });
+    }
+
+    var chips = qs("#kit-chips");
+    if (chips) {
+      chips.addEventListener("click", function (ev) {
+        var btn = ev.target.closest ? ev.target.closest("[data-key]") : null;
+        if (!btn) return;
+        var key = btn.getAttribute("data-key");
+        if (FILE_KEYS.indexOf(key) === -1) return;
+        showFile(key);
+        if (window.matchMedia && window.matchMedia("(max-width: 720px)").matches) {
+          setSheet(true);
+        }
+      });
+    }
+
+    window.addEventListener("hashchange", applyHash);
   }
 
   function initPlay() {
@@ -452,38 +411,27 @@
       window.location.replace("appendix.html?lv=" + params.get("lv"));
       return;
     }
-    var state = load();
-    var raw = params.get("ch");
-    var chId = raw === "end" ? "end" : parseInt(raw, 10);
-    if (raw !== "end" && (isNaN(chId) || chId < 0 || chId > 4)) {
-      chId = firstOpen(state);
-    }
-    if (!unlocked(state, chId)) {
-      window.location.replace("play.html?ch=" + firstOpen(state));
+    if (params.has("ch")) {
+      var dest = CH_REDIRECT[params.get("ch")] || "intro";
+      window.location.replace("play.html#" + dest);
       return;
     }
 
-    renderFiles(qs("#files"), state, chId);
-    renderRail(qs("#rail"), state, chId);
-    renderKit(qs("#kit-body"), state, chId);
+    state = load();
+    renderLock();
+    renderProgress();
+    renderChips();
+    setSheet(false);
 
-    qsa("article.chapter").forEach(function (el) {
-      el.hidden = el.getAttribute("data-ch") !== String(chId);
-    });
-
-    if (chId === "end") return;
-
-    var article = qs('article.chapter[data-ch="' + chId + '"]');
-    if (!article) return;
-
-    if (hasArtifact(state, chId)) {
-      markDone(article, chId, state);
-      return;
+    if (state.lock && state.lastFile) {
+      revealUpTo(state.lastFile);
+      showFile(state.lastFile);
     }
-    bindChapter(article, chId, state);
+
+    applyHash();
+    bindUi();
+    observeSections();
   }
 
-  var page = document.body.getAttribute("data-page");
-  if (page === "kit-map") initMap();
-  if (page === "kit-play") initPlay();
+  if (document.body.getAttribute("data-page") === "kit-play") initPlay();
 })();

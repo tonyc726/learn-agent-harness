@@ -4,19 +4,20 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>从零造一个循环</title>
-  <meta name="description" content="模型只会说话。循环、工具、界面是你写的。写完这五个文件，你就写过一遍最小 harness。">
+  <meta name="description" content="模型只会说话。下面五个文件是最小 harness。往下读，代码会跟着长出来。">
   <meta name="theme-color" content="#f4efe6">
   <link rel="canonical" href="https://tonyc726.github.io/learn-agent-harness/index.html">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&family=Noto+Serif+SC:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="read.css">
 </head>
 <body class="is-game" data-page="kit-map">
 <nav class="site-nav">
   <a class="brand" href="index.html">learn-agent-harness</a>
   <div class="links">
-    <a href="index.html" class="active">闯关</a>
+    <a href="index.html" class="active">阅读</a>
     <a href="harness.html">源码线</a>
     <a href="repos.html">仓库</a>
     <a href="resources.html">链接</a>
@@ -25,41 +26,20 @@
 <div class="wrap-game single open-learn">
   <p class="eyebrow">学的是 harness</p>
   <h1>从零造一个循环</h1>
-  <p class="lead">
-    模型只会说话。循环、工具、界面是你写的。写完这五个文件，你就写过一遍最小 harness。
-  </p>
-  <div class="outcomes" id="outcomes">
-    <h2>打完工具箱里会有什么</h2>
-    <ol>
-      <li><code>llm.ts</code>：Context 进，四种事件出。只接 OpenAI 兼容口。</li>
-      <li><code>agent.ts</code>：stream → 工具 → 写回 → 再问，直到 done。</li>
-      <li><code>tools.ts</code>：四个纯函数。教学剂，没有批准。</li>
-      <li><code>tui.ts</code>：只认 AgentEvent，不认 HTTP。</li>
-      <li><code>cli.ts</code>：胶水 + <code>session.jsonl</code>。依赖单向。</li>
-    </ol>
-  </div>
-  <p class="practice-note">顺着数据流装文件。工具箱会一件件变长：宽屏在右侧，窄屏在地图下面。不是问答测验。</p>
-  <p class="actions"><a class="btn" href="play.html?ch=0">从 llm.ts 开始</a></p>
-</div>
-<div class="lamps-bar" id="files" aria-label="五个文件"></div>
-<div class="wrap-game">
-  <div class="quest">
-    <p class="eyebrow">五个文件</p>
-    <ol class="trail" id="trail"></ol>
-    <p class="quiet-reset">
-      <button type="button" id="reset-kit">清空本机工具箱，重开</button>
-    </p>
-  </div>
-  <aside class="dock kit-dock" aria-label="工具箱">
-    <p class="slot-label">工具箱</p>
-    <h2>已装入</h2>
-    <div id="kit-body"></div>
-  </aside>
+  <p class="lead">模型只会说话。下面五个文件是最小 harness。</p>
+  <ul class="file-jump">
+    <li><a href="play.html#llm"><code>llm.ts</code></a></li>
+    <li><a href="play.html#agent"><code>agent.ts</code></a></li>
+    <li><a href="play.html#tools"><code>tools.ts</code></a></li>
+    <li><a href="play.html#tui"><code>tui.ts</code></a></li>
+    <li><a href="play.html#cli"><code>cli.ts</code></a></li>
+  </ul>
+  <p class="actions"><a class="btn btn-start" href="play.html">开始读</a></p>
+  <p class="home-aside"><a href="https://pi-from-scratch.vercel.app">完整版对照</a></p>
 </div>
 <footer class="colophon wrap-game single">
-  <p>静态学习站。工具箱只存在本机 <code>nano-kit-v1</code>。完整原文请走链接里的「完整版对照」，本页不转载。</p>
+  <p>一篇长文。读到哪一份，工具箱就亮哪一份。完整原文请走「完整版对照」，本页不转载。</p>
   <p><a href="appendix.html">附录：旧 CI 门禁关</a></p>
 </footer>
-<script src="kit.js"></script>
 </body>
 </html>
