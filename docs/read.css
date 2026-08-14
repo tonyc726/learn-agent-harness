@@ -1,4 +1,4 @@
-/* Scrolling article + kit dock. Cream / ink / rust. */
+/* Scrolling article + fullscreen kit. Cream / ink / rust. */
 
 .file-jump {
   display: flex;
@@ -48,10 +48,35 @@
   color: var(--muted);
 }
 
+body.is-read {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+  min-height: 100dvh;
+  overflow: hidden;
+}
+
+body.is-read.is-game .site-nav {
+  flex: 0 0 auto;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+}
+
 .play-layout {
-  width: min(1100px, calc(100% - 2rem));
-  margin: 0 auto;
-  padding: 1.4rem 0 4rem;
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.read-article {
+  min-height: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .read-article section {
@@ -76,6 +101,7 @@
   border: 1px solid var(--rule);
   border-radius: 18px;
   padding: 0.85rem 0.95rem 1rem;
+  min-height: 0;
 }
 
 .kit-bar {
@@ -83,6 +109,7 @@
   flex-wrap: wrap;
   align-items: center;
   gap: 0.45rem 0.55rem;
+  flex: 0 0 auto;
 }
 
 .kit-bar .slot-label {
@@ -157,6 +184,7 @@
   flex-wrap: wrap;
   gap: 0.4rem;
   margin: 0.7rem 0 0;
+  flex: 0 0 auto;
 }
 
 .kit-chip {
@@ -183,59 +211,89 @@
   background: var(--chip);
 }
 
+.kit-sheet {
+  min-height: 0;
+}
+
 .kit-panel {
   margin-top: 0.7rem;
+  min-height: 0;
 }
 
 .kit-panel .empty {
   color: var(--muted);
   font-size: 0.92rem;
-  margin: 0;
+  margin: auto;
+  text-align: center;
 }
 
 .kit-panel pre {
   margin: 0;
-  max-height: min(62vh, 36rem);
   overflow: auto;
   -webkit-overflow-scrolling: touch;
-  font-size: 13px;
-  line-height: 1.5;
+  font-size: 14px;
+  line-height: 1.55;
 }
 
 @media (min-width: 721px) {
   .play-layout {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(280px, 360px);
-    gap: 1.35rem 1.4rem;
-    align-items: start;
-    padding-bottom: 42vh;
+    grid-template-columns: minmax(20rem, 0.72fr) minmax(0, 1.28fr);
+    gap: 0;
+    align-items: stretch;
+  }
+
+  .read-article {
+    padding: 1.6rem clamp(1.2rem, 3vw, 2.4rem) 42vh;
   }
 
   .kit-dock {
-    position: sticky;
-    top: 0.8rem;
-    max-height: calc(100vh - 1.6rem);
-    overflow: auto;
+    position: relative;
+    top: auto;
+    height: 100%;
+    max-height: none;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    border: 0;
+    border-left: 1px solid var(--rule);
+    border-radius: 0;
+    padding: 0.9rem 1.05rem 1rem;
+  }
+
+  .kit-sheet {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    min-height: 0;
+  }
+
+  .kit-panel {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    min-height: 0;
+  }
+
+  .kit-panel pre {
+    flex: 1 1 auto;
+    max-height: none;
+    min-height: 0;
   }
 
   .kit-sheet-toggle { display: none; }
-
-  .kit-sheet { display: block; }
 }
 
 @media (max-width: 720px) {
   .play-layout {
-    display: block;
-    width: min(1100px, calc(100% - 1.25rem));
-    padding: 1rem 0 0;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
   }
 
-  body.is-read {
-    padding-bottom: 7.25rem;
-  }
-
-  body.is-read.kit-open {
-    padding-bottom: calc(45vh + 9.5rem);
+  .read-article {
+    flex: 1 1 auto;
+    padding: 1rem 1.1rem 7.5rem;
   }
 
   .read-article section {
@@ -265,12 +323,34 @@
     display: none;
   }
 
+  .kit-dock.is-open {
+    inset: 0;
+    height: 100dvh;
+    max-height: 100dvh;
+    border-radius: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 0.75rem 0.9rem calc(0.75rem + env(safe-area-inset-bottom, 0px));
+  }
+
   .kit-dock.is-open .kit-sheet {
-    display: block;
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    min-height: 0;
+  }
+
+  .kit-dock.is-open .kit-panel {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    min-height: 0;
   }
 
   .kit-dock.is-open .kit-panel pre {
-    max-height: 45vh;
+    flex: 1 1 auto;
+    max-height: none;
+    min-height: 0;
   }
 
   .kit-bar .slot-label {
