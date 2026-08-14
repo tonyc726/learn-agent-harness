@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>先把业务 Agent 做稳，再决定要不要读源码</title>
-  <meta name="description" content="两条线学 Agent harness：三晚用 Deep Agents 把业务路径箍住，再按需读 Pi / Codex / dsh 源码。">
+  <title>红了先通知，不要自动发版</title>
+  <meta name="description" content="一门差事：让 Agent 安全启用「CI 红了先通知你，不要自动发版」。过关看证物。">
   <meta name="theme-color" content="#f4efe6">
   <link rel="canonical" href="https://tonyc726.github.io/learn-agent-harness/index.html">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,54 +12,38 @@
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&family=Noto+Serif+SC:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="is-game" data-page="map">
 <nav class="site-nav">
   <a class="brand" href="index.html">learn-agent-harness</a>
   <div class="links">
-    <a href="index.html" class="active">首页</a>
-    <a href="deep-agent.html">三晚速成</a>
+    <a href="index.html" class="active">闯关</a>
     <a href="harness.html">源码线</a>
     <a href="repos.html">仓库</a>
     <a href="resources.html">链接</a>
   </div>
 </nav>
-  <div class="wrap">
-    <p class="eyebrow">Two tracks · Agent = model + harness</p>
-    <h1>先把业务 Agent 做稳，再决定要不要读源码</h1>
+<div class="lamps-bar" id="lamps" aria-label="六性"></div>
+<div class="wrap-game">
+  <div class="quest">
+    <p class="eyebrow">闯关 · 一门差事</p>
+    <h1>红了先通知，不要自动发版</h1>
     <p class="lead">
-      Agent 不是模型本身。Agent = 模型 + harness。Deep Agents 已经是一套现成的 harness：规划、文件系统、子 Agent、记忆、Skill、人在回路，都焊在 <code>create_deep_agent</code> 上。先把它用稳，再决定要不要拆别人的循环。
+      你是开发者。CI 已经配好。群里已经有聊天机器人。只让 Agent 安全启用这一条。不要发版。
     </p>
-
-    <div class="cards">
-      <a class="card" href="deep-agent.html">
-        <span class="when">Track A</span>
-        <strong>三晚速成</strong>
-        <p>用 Deep Agents 箍住一条业务黄金路径：说明书、硬约束、Skill、独立检查。入口 <code>deep-agent.html</code>。</p>
-      </a>
-      <a class="card" href="harness.html">
-        <span class="when">Track B</span>
-        <strong>源码线</strong>
-        <p>按橙皮书的生长顺序加缰绳，再按文件顺序读 Pi、Codex、DeepSeek Harness。入口 <code>harness.html</code>。</p>
-      </a>
-    </div>
-
-    <section class="panel">
-      <h2>这三晚怎么读橙皮书</h2>
-      <p>
-        橙皮书讲的是缰绳工程学的一般方法，不是另一本 Agent 百科。三晚只对照三节，不要通读，更不要把 PDF 正文贴进仓库。
-      </p>
-      <ul>
-        <li><strong>§01</strong>：说明书与边界。对应今晚——它只做什么。</li>
-        <li><strong>§04</strong>：出错就加规则。对应明晚——硬约束上锁。</li>
-        <li><strong>§10</strong>：反馈与验收。对应后天——独立检查，不自审自批。</li>
-      </ul>
-      <p class="note">
-        先走 Track A。Pi、Codex、dsh、老金50篇、Claude sourcemap 还原，都放到 Track B 或更后。Claude Code 官方仓库只有 changelog 与 plugins，没有可对照的公开循环。
-      </p>
-    </section>
-  <footer class="colophon">
-    <p>静态学习站。不转载橙皮书 PDF，也不摘录其正文。对照请打开官方仓库与文档。</p>
-  </footer>
+    <ol class="trail" id="trail"></ol>
+    <p class="quiet-reset">
+      <button type="button" id="reset-campaign">清空本机证物，重开</button>
+    </p>
+  </div>
+  <aside class="dock" aria-label="确认坞">
+    <p class="slot-label">确认坞</p>
+    <h2>证物</h2>
+    <div id="dock-body"></div>
+  </aside>
 </div>
+<footer class="colophon wrap-game single">
+  <p>静态学习站。证物只存在本机 <code>ci-gate-campaign-v1</code>。不转载橙皮书 PDF。</p>
+</footer>
+<script src="campaign.js"></script>
 </body>
 </html>

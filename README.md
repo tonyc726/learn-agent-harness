@@ -1,10 +1,10 @@
 # learn-agent-harness
 
-先把业务 Agent 做稳，再决定要不要读源码。
+一门差事：让 Agent 安全启用「CI 红了先通知你，不要自动发版」。
 
 线上地址：<https://tonyc726.github.io/learn-agent-harness/>
 
-本仓库是一个静态 GitHub Pages 站点，不转载橙皮书 PDF，也不摘录其正文。对照时请打开官方仓库与文档。
+本仓库是一个静态 GitHub Pages 站点。证物存在浏览器 `localStorage`，键名 `ci-gate-campaign-v1`。下一关在证物齐之前是锁的。不转载橙皮书 PDF，也不摘录其正文。
 
 ## 本地预览
 
@@ -14,22 +14,38 @@ python3 -m http.server -d docs 8080
 
 浏览器打开 <http://127.0.0.1:8080/>。
 
-## 两条线
+## 闯关
 
-- **Track A · 三晚速成**：用 LangChain Deep Agents 把一条业务黄金路径箍住。入口 [`docs/deep-agent.html`](docs/deep-agent.html)。这三晚只对照橙皮书 §01 / §04 / §10。
-- **Track B · 源码线**：按橙皮书的生长顺序加缰绳，再按文件顺序读 Pi / Codex / DeepSeek Harness。入口 [`docs/harness.html`](docs/harness.html)。
+你是开发者。CI 已经配好。群里已经有聊天机器人。只做这一条。
 
-Agent = 模型 + harness。Deep Agents 本身已经是一套 harness，三晚先把它用稳，不必先拆别人的循环。
+| 关 | 证物 |
+| --- | --- |
+| 0 口头开了 | 自然语言确认 ≠ 授权；commit 不在工具清单 |
+| 1 合同 | 五句话：你是谁、成功、工具、工作区、停手 |
+| 2 只读投影 | id / revision / status / summary，无密钥 |
+| 3 停用草稿 | 停用回执（rule id + revision） |
+| 4 确认坞 | 键入「批准」 |
+| 5 旧卡作废 | 版本不匹配回执 |
+| 6 对账 | 停止生成 ≠ 取消 CI；unknown 按 intent 收敛 |
+
+每关四拍：先挨打、先回忆再讲、先做再给答案、过关看证物。没有分数。
+
+六性灯：版本诚实 / 事务完整 / 结果可知 / 重试安全 / 边界卫生 / 授权内聚。
+
+## 源码线
+
+[`docs/harness.html`](docs/harness.html) 是新游戏+：按橙皮书生长顺序加缰绳，再按文件读 Pi / Codex / DeepSeek Harness。不加关。
 
 ## 页面
 
 | 页面 | 内容 |
 | --- | --- |
-| `docs/index.html` | 首页，选线 |
-| `docs/deep-agent.html` | Track A 三晚速成 |
-| `docs/harness.html` | Track B 源码线 |
+| `docs/index.html` | 闯关地图 |
+| `docs/play.html` | 关卡 |
+| `docs/harness.html` | 源码线 |
 | `docs/repos.html` | 官方仓库对照表 |
-| `docs/resources.html` | 官方文档与对照链接 |
+| `docs/resources.html` | 对照链接；含序章「为什么」 |
+| `docs/deep-agent.html` | 旧三晚速成，附录 |
 
 ## 许可
 
