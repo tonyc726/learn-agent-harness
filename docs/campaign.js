@@ -96,7 +96,7 @@
   function renderRail(root, state, current) {
     if (!root) return;
     var parts = LEVELS.map(function (lv, i) {
-      var href = "play.html?lv=" + lv.id;
+      var href = "appendix.html?lv=" + lv.id;
       var cls = "seg";
       var label = lv.id + " " + lv.title;
       var html;
@@ -116,8 +116,8 @@
       parts.push('<span class="seg" aria-hidden="true">·</span>');
       parts.push(
         current === "end"
-          ? '<a class="now" href="play.html?lv=end">收束</a>'
-          : '<a class="done" href="play.html?lv=end">收束</a>'
+          ? '<a class="now" href="appendix.html?lv=end">收束</a>'
+          : '<a class="done" href="appendix.html?lv=end">收束</a>'
       );
     }
     root.innerHTML = parts.join("");
@@ -138,7 +138,7 @@
         (lv.stem ? "<p class=\"stem\">" + lv.stem + "</p>" : "") +
         "<p>" + (done ? "证物已在坞里。" : now ? "当前。先挨打。" : openHere ? "可进。" : "上一关的证物还没有。") + "</p>";
       if (openHere) {
-        return '<li class="' + cls + '"><a href="play.html?lv=' + lv.id + '">' + inner + "</a></li>";
+        return '<li class="' + cls + '"><a href="appendix.html?lv=' + lv.id + '">' + inner + "</a></li>";
       }
       return '<li class="' + cls + '"><div class="dead">' + inner + "</div></li>";
     }).join("");
@@ -155,7 +155,7 @@
       '<ul class="receipt-list">' +
       items.map(function (lv) {
         return (
-          "<li><a href=\"play.html?lv=" + lv.id + "\">" +
+          "<li><a href=\"appendix.html?lv=" + lv.id + "\">" +
           lv.id + " · " + lv.title +
           "</a><div class=\"empty\">" + lv.slot + "</div></li>"
         );
@@ -240,7 +240,7 @@
       lvId = firstOpen(state);
     }
     if (!unlocked(state, lvId)) {
-      window.location.replace("play.html?lv=" + firstOpen(state));
+      window.location.replace("appendix.html?lv=" + firstOpen(state));
       return;
     }
 
@@ -664,4 +664,39 @@
   var page = document.body.getAttribute("data-page");
   if (page === "map") initMap();
   if (page === "play") initPlay();
+  if (page === "appendix") {
+    var params = new URLSearchParams(window.location.search);
+    var mapEl = document.getElementById("appendix-map");
+    var chrome = document.getElementById("lamps");
+    var playWrap = document.getElementById("appendix-play");
+    if (params.has("lv")) {
+      if (mapEl) mapEl.hidden = true;
+      if (chrome) chrome.hidden = false;
+      if (playWrap) playWrap.hidden = false;
+      initPlay();
+    } else {
+      if (mapEl) mapEl.hidden = false;
+      if (chrome) chrome.hidden = true;
+      if (playWrap) playWrap.hidden = true;
+      var mapDock = document.getElementById("dock-body-map");
+      if (mapDock && !document.getElementById("dock-body")) {
+        mapDock.id = "dock-body";
+      } else if (mapDock) {
+        var state = load();
+        renderLamps(document.getElementById("lamps"), state);
+        renderMap(document.getElementById("trail"), state);
+        renderDockList(mapDock, state);
+        var reset = document.getElementById("reset-campaign");
+        if (reset) {
+          reset.addEventListener("click", function () {
+            if (!window.confirm("清空本机证物，从第 0 关重开？")) return;
+            clearAll();
+            window.location.reload();
+          });
+        }
+      } else {
+        initMap();
+      }
+    }
+  }
 })();

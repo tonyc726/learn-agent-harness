@@ -327,10 +327,12 @@ body.is-game .site-nav,
   margin: 0 auto;
   padding: 1.4rem 0 4rem;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 280px;
+  grid-template-columns: minmax(0, 1fr);
   gap: 1.15rem 1.3rem;
   align-items: start;
 }
+
+.wrap-game > * { min-width: 0; }
 
 .wrap-game.single {
   grid-template-columns: 1fr;
@@ -680,9 +682,14 @@ body.is-game .site-nav,
   margin: 0 0 1.1rem;
 }
 
+@media (min-width: 721px) {
+  .wrap-game {
+    grid-template-columns: minmax(0, 1fr) minmax(240px, 320px);
+  }
+  .wrap-game.single { grid-template-columns: 1fr; }
+}
+
 @media (max-width: 860px) {
-  .wrap-game { grid-template-columns: 1fr; }
-  .dock { position: static; }
   .compare { grid-template-columns: 1fr; }
 }
 
@@ -740,3 +747,166 @@ body.is-game .site-nav,
   color: var(--ink);
   font-size: 0.94rem;
 }
+
+
+/* —— 工具箱 + 手机可玩 —— */
+html { -webkit-text-size-adjust: 100%; }
+
+.lamp.now {
+  color: var(--ink);
+  border-color: var(--rust);
+}
+
+.kit-dock {
+  max-width: 100%;
+}
+
+.kit-file { margin-top: 0.75rem; }
+.kit-file:first-child { margin-top: 0; }
+
+.kit-name {
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--rust);
+  font-weight: 600;
+  margin: 0 0 0.3rem;
+}
+
+.kit-file pre {
+  margin-top: 0.25rem;
+  max-height: 22rem;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.kit-file.draft pre { opacity: 0.92; }
+.kit-file.current pre { box-shadow: inset 0 0 0 1px #d4b48a; }
+
+.chapter h2 { font-size: 1.08rem; }
+
+pre {
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.quiet-reset button {
+  min-height: 44px;
+}
+
+@media (max-width: 720px) {
+  body { font-size: 16px; }
+
+  .site-nav {
+    width: min(1100px, calc(100% - 1.25rem));
+    padding: 0.7rem 0 0.65rem;
+  }
+
+  .site-nav .links a {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    padding: 0.35rem 0.15rem;
+  }
+
+  body.is-game .site-nav,
+  .lamps-bar,
+  .wrap-game,
+  .appendix-banner {
+    width: min(1100px, calc(100% - 1.25rem));
+  }
+
+  .wrap-game {
+    padding: 1rem 0 3rem;
+    gap: 1rem;
+  }
+
+  .lamps-bar {
+    position: static;
+    margin-top: 0.65rem;
+  }
+
+  .lamp {
+    min-height: 36px;
+    padding: 0.35rem 0.7rem;
+  }
+
+  .rail a,
+  .rail span.lock,
+  .rail span.seg {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    padding: 0.35rem 0.4rem;
+  }
+
+  .dock {
+    position: static;
+    top: auto;
+  }
+
+  .kit-file pre,
+  pre {
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .btn,
+  .btn-ghost {
+    min-height: 44px;
+    width: 100%;
+    padding: 0.7rem 1rem;
+    text-align: center;
+  }
+
+  .actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .gate label {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    padding: 0.7rem 0.8rem;
+  }
+
+  .gate input {
+    width: 1.15rem;
+    height: 1.15rem;
+    flex: 0 0 auto;
+  }
+
+  .field input[type="text"],
+  .field textarea,
+  .field select {
+    min-height: 44px;
+    font-size: 16px;
+  }
+
+  .trail > li { padding: 0.85rem 0 0.85rem 2.55rem; }
+  .trail a,
+  .trail .dead { min-height: 44px; }
+
+  .quiet-reset button {
+    min-height: 44px;
+    padding: 0.4rem 0;
+  }
+
+  p code, li code {
+    word-break: break-word;
+  }
+}
+
+@media (min-width: 721px) {
+  .dock { position: sticky; top: 0.8rem; }
+  .kit-dock {
+    max-height: calc(100vh - 1.6rem);
+    overflow: auto;
+  }
+}
+
+.btn, .btn-ghost, .gate label, .site-nav a, .trail a, .quiet-reset button { touch-action: manipulation; }

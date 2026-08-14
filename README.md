@@ -1,12 +1,12 @@
 # learn-agent-harness
 
-别把模型当成整个 Agent。模型会说话；真正改系统的是你在外面加的规矩。那套规矩叫 harness。
+从零造一个循环。模型只会说话。循环、工具、界面是你写的。写完这五个文件，你就写过一遍最小 harness。
 
 线上地址：<https://tonyc726.github.io/learn-agent-harness/>
 
-本仓库是一个静态 GitHub Pages 站点。证物存在浏览器 `localStorage`，键名 `ci-gate-campaign-v1`。下一关在证物齐之前是锁的。不转载橙皮书 PDF，也不摘录其正文。
+本仓库是一个静态 GitHub Pages 站点。工具箱存在浏览器 `localStorage`，键名 `nano-kit-v1`。下一件在上一件装入之前是锁的。手机上一列：正文在上，工具箱在下；「填入范例 / 选好答案」不用打字。
 
-CI「红了先通知你、不要自动发版」只是练习用的假任务。你要学的不是 Jenkins，是怎么给模型套缰绳。
+完整原文请走 [完整版对照](https://tonyc726.github.io/learn-agent-harness/resources.html)，本站不转载 SaladDay/pi-from-scratch 的正文。
 
 ## 本地预览
 
@@ -18,21 +18,17 @@ python3 -m http.server -d docs 8080
 
 ## 闯关
 
-打完你会：写清说明书、危险动作只申请你确认、密文不准进对话、旧确认作废、对话停了去对账。
+五个文件，按数据流锁关：
 
-| 关 | 证物 |
-| --- | --- |
-| 0 口头「开了」不能写库 | 自然语言确认 ≠ 授权；commit 不在工具清单 |
-| 1 先写说明书 | 五句话：你是谁、成功、工具、工作区、停手 |
-| 2 密文不准进对话 | id / revision / status / summary，无密钥 |
-| 3 先停用，再申请启用 | 停用回执（rule id + revision） |
-| 4 确认坞：模型不能自己提交 | 键入「批准」 |
-| 5 旧确认必须作废 | 版本不匹配回执 |
-| 6 对话停了，CI 还在 | 停止生成 ≠ 取消 CI；unknown 按 intent 收敛 |
+| 件 | 文件 | 装入工具箱 |
+| --- | --- | --- |
+| 0 | `llm.ts` | Context 进，四种 StreamEvent 出。只接 OpenAI 兼容口 |
+| 1 | `agent.ts` | `runAgent`：stream → 工具 → 写回 → 再问，直到 done |
+| 2 | `tools.ts` | `read_file` / `write_file` / `edit` / `run_bash`。教学剂，没有批准 |
+| 3 | `tui.ts` | 只认 AgentEvent，不认 HTTP |
+| 4 | `cli.ts` | 胶水 + `session.jsonl`。cli 认识所有人；tools 不认识 agent |
 
-每关四拍：先挨打、先回忆再讲、先做再给答案、过关看证物。没有分数。
-
-六性灯：版本诚实 / 事务完整 / 结果可知 / 重试安全 / 边界卫生 / 授权内聚。
+右侧（手机上是下方）工具箱会一件件变长。没有分数。
 
 ## 源码线
 
@@ -42,11 +38,12 @@ python3 -m http.server -d docs 8080
 
 | 页面 | 内容 |
 | --- | --- |
-| `docs/index.html` | 先说你会什么，再进闯关地图 |
-| `docs/play.html` | 关卡 |
+| `docs/index.html` | 五个文件的地图 |
+| `docs/play.html` | `?ch=0..4` 装文件 |
 | `docs/harness.html` | 源码线 |
 | `docs/repos.html` | 官方仓库对照表 |
-| `docs/resources.html` | 对照链接；含序章「为什么」 |
+| `docs/resources.html` | 对照链接；含完整版对照 |
+| `docs/appendix.html` | 旧 CI 门禁关，附录 |
 | `docs/deep-agent.html` | 旧三晚速成，附录 |
 
 ## 许可

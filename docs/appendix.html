@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>附录 · 旧 CI 门禁关</title>
+  <meta name="description" content="旧附录。主线已改成从零造一个循环。这里仍是 CI 门禁关，证物键名 ci-gate-campaign-v1。">
+  <meta name="theme-color" content="#f4efe6">
+  <link rel="canonical" href="https://tonyc726.github.io/learn-agent-harness/appendix.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&family=Noto+Serif+SC:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="is-game" data-page="appendix">
+<nav class="site-nav">
+  <a class="brand" href="index.html">learn-agent-harness</a>
+  <div class="links">
+    <a href="index.html" class="active">闯关</a>
+    <a href="harness.html">源码线</a>
+    <a href="repos.html">仓库</a>
+    <a href="resources.html">链接</a>
+  </div>
+</nav>
+<div class="appendix-banner">这是附录里的旧 CI 门禁关，不是主线。<a href="index.html">回「从零造一个循环」</a></div>
+<div id="appendix-map" class="wrap-game" hidden>
+  <div class="quest">
+    <p class="eyebrow">附录地图</p>
+    <h1>旧 CI 门禁关</h1>
+    <p class="lead">主线已经换成五个文件。这里留下原来的七关，证物键名仍是 <code>ci-gate-campaign-v1</code>。</p>
+    <ol class="trail" id="trail"></ol>
+    <p class="quiet-reset"><button type="button" id="reset-campaign">清空本机证物，重开</button></p>
+  </div>
+  <aside class="dock" aria-label="确认坞">
+    <p class="slot-label">确认坞</p>
+    <h2>证物</h2>
+    <div id="dock-body-map"></div>
+  </aside>
+</div>
+<div class="lamps-bar" id="lamps" aria-label="六性"></div>
+<div id="appendix-play" class="wrap-game">
+  <div>
+    <nav class="rail" id="rail" aria-label="关卡"></nav>
+    <p class="note" style="margin-top:0.8rem">这关需要浏览器保存证物。没有 JavaScript 就过不了。</p>
+
+    <article class="level panel" data-level="0" hidden>
+      <p class="eyebrow">第 0 关 · 序章</p>
+      <h1>口头「开了」不能写库</h1>
+      <p class="lead">练习：口头说「开了」，什么也没写进库。</p>
+
+      <section class="beat" data-beat="fail">
+        <p class="beat-kicker">先挨打</p>
+        <p>你对模型说「把门禁开了」。它说「好了」。规则还是停用。确认坞是空的。</p>
+        <div class="transcript">
+          <div class="bubble"><span>你</span><p>把门禁开了</p></div>
+          <div class="bubble"><span>模型</span><p>好了。已经开了。</p></div>
+          <div class="bubble sys"><span>确认坞</span><p>空。无人批准。</p></div>
+          <div class="bubble sys"><span>规则</span><p>notify-on-red · 停用</p></div>
+        </div>
+        <div class="actions"><button type="button" class="btn" data-to="gate">看清了</button></div>
+      </section>
+
+      <section class="beat" data-beat="gate" hidden>
+        <p class="beat-kicker">先回忆再讲</p>
+        <fieldset class="gate">
+          <legend>模型回了「好了」。规则启用了吗？</legend>
+          <label><input type="radio" name="q0a" value="wrong"> 启用了。聊天确认即授权。</label>
+          <label><input type="radio" name="q0a" value="right"> 没有。自然语言确认 ≠ 授权。</label>
+          <p class="hint" id="h0a" hidden>看确认坞。空的。</p>
+        </fieldset>
+        <fieldset class="gate">
+          <legend>模型能自己调用 commit 吗？</legend>
+          <label><input type="radio" name="q0b" value="wrong"> 能。它说好了就能写。</label>
+          <label><input type="radio" name="q0b" value="right"> 不能。commit 不在工具清单里。</label>
+          <p class="hint" id="h0b" hidden>工具只有查询和起草。没有提交。</p>
+        </fieldset>
+        <div class="actions"><button type="button" class="btn btn-ghost" data-fill-gate>选好答案</button><button type="button" class="btn" id="g0-submit">作答</button></div>
+      </section>
+
+      <section class="beat" data-beat="do" hidden>
+        <p class="beat-kicker">先做再给答案</p>
+        <p>勾出刚才看见的两件实事。不要勾「它说好了就算」。</p>
+        <label class="field"><input type="checkbox" id="do0-nl"> 自然语言确认 ≠ 授权</label>
+        <label class="field"><input type="checkbox" id="do0-commit"> commit 不在工具清单里</label>
+        <label class="field"><input type="checkbox" id="do0-trap1"> 模型说「好了」就是启用了</label>
+        <label class="field"><input type="checkbox" id="do0-trap2"> 确认坞只是装饰</label>
+        <p class="err" id="e0"></p>
+        <div class="actions"><button type="button" class="btn btn-ghost" data-fill-do="0">填入范例</button><button type="button" class="btn" id="do0-submit">写入证物</button></div>
+      </section>
+
+      <section class="beat" data-beat="example" hidden>
+        <p class="beat-kicker">过关看证物</p>
+        <p>聊天里的「好了」不是门闩。启用必须经过确认坞。模型看不见 commit。</p>
+        <div class="actions" data-next hidden>
+          <a class="btn" href="appendix.html?lv=1">下一关 · 先写说明书</a>
+          <a class="btn btn-ghost" href="appendix.html">回附录地图</a>
+        </div>
+      </section>
+    </article>
+
+    <article class="level panel" data-level="1" hidden>
+      <p class="eyebrow">第 1 关</p>
+      <h1>先写说明书</h1>
+      <p class="lead">练习任务：说明书写清只开门禁，不许发版。</p>
+
+      <section class="beat" data-beat="fail">
+        <p class="beat-kicker">先挨打</p>
+        <p>你写「帮我处理一下 CI」。模型启用了通知，也点了发版。合同没写「只通知，不发版」。</p>
+        <div class="transcript">
+          <div class="bubble"><span>你</span><p>帮我处理一下 CI</p></div>
+          <div class="bubble"><span>模型</span><p>通知开了。发版也帮你点了。</p></div>
+          <div class="bubble sys"><span>流水线</span><p>deploy · 已触发</p></div>
+        </div>
+        <div class="actions"><button type="button" class="btn" data-to="gate">看清了</button></div>
+      </section>
+
+      <section class="beat" data-beat="gate" hidden>
+        <p class="beat-kicker">先回忆再讲</p>
+        <fieldset class="gate">
+          <legend>这份合同要让 Agent 做什么？</legend>
+          <label><input type="radio" name="q1a" value="wrong"> 修好 CI，并自动发版。</label>
+          <label><input type="radio" name="q1a" value="right"> 只启用「红了先通知，不要自动发版」。</label>
+          <p class="hint" id="h1a" hidden>一门差事。发版不在门里。</p>
+        </fieldset>
+        <fieldset class="gate">
+          <legend>合同必须钉死的是哪五句？</legend>
+          <label><input type="radio" name="q1b" value="right"> 你是谁、成功长什么样、工具只能用这些、工作区、停手条件。</label>
+          <label><input type="radio" name="q1b" value="wrong"> 模型品牌、温度、最大长度、语气、表情。</label>
+          <p class="hint" id="h1b" hidden>合同管边界，不管采样参数。</p>
+        </fieldset>
+        <div class="actions"><button type="button" class="btn btn-ghost" data-fill-gate>选好答案</button><button type="button" class="btn" id="g1-submit">作答</button></div>
+      </section>
+
+      <section class="beat" data-beat="do" hidden>
+        <p class="beat-kicker">先做再给答案</p>
+        <p>先写五句，或点「填入范例」。必须写明：只启用通知规则，不要自动发版。</p>
+        <div class="field">
+          <label for="c-who">你是谁</label>
+          <textarea id="c-who" placeholder="角色。只服务哪一条。"></textarea>
+        </div>
+        <div class="field">
+          <label for="c-ok">成功长什么样</label>
+          <textarea id="c-ok" placeholder="可验收的结果。不是一段随口解释。"></textarea>
+        </div>
+        <div class="field">
+          <label for="c-tools">工具只能用这些</label>
+          <textarea id="c-tools" placeholder="列出工具。缺的不要编。发版不在清单里。"></textarea>
+        </div>
+        <div class="field">
+          <label for="c-ws">工作区</label>
+          <textarea id="c-ws" placeholder="只读写哪里。草稿和回执分开。"></textarea>
+        </div>
+        <div class="field">
+          <label for="c-stop">停手条件</label>
+          <textarea id="c-stop" placeholder="不确定、要发版、或缺权限时怎么停。"></textarea>
+        </div>
+        <p class="err" id="e1"></p>
+        <div class="actions"><button type="button" class="btn btn-ghost" data-fill-do="1">填入范例</button><button type="button" class="btn" id="do1-submit">写入证物</button></div>
+      </section>
+
+      <section class="beat" data-beat="example" hidden>
+        <p class="beat-kicker">过关看证物</p>
+        <p>一份够用的合同可以长这样。你的五句已经进坞。不必抄。</p>
+        <pre><code>你是仓库里的开发助手，只服务这一条：启用「CI 红了先通知，不要自动发版」。
+成功：规则先以停用草稿落盘；启用必须经过确认坞；CI 红了只发群通知。
+工具：list_pipelines、draft_rule、read_receipt。没有 deploy，没有 commit。
+工作区：只读写约定目录。草稿与回执分开。
+停手：缺权限、有人要发版、或偏离通知规则时，写明原因并等待。</code></pre>
+        <div class="actions" data-next hidden>
+          <a class="btn" href="appendix.html?lv=2">下一关 · 密文不准进对话</a>
+          <a class="btn btn-ghost" href="appendix.html">回附录地图</a>
+        </div>
+      </section>
+    </article>
+
+    <article class="level panel" data-level="2" hidden>
+      <p class="eyebrow">第 2 关</p>
+      <h1>密文不准进对话</h1>
+      <p class="lead">练习：密钥、token 不准进对话。模型只看干净摘要。</p>
+
+      <section class="beat" data-beat="fail">
+        <p class="beat-kicker">先挨打</p>
+        <p>你让它列出流水线。聊天里出现了部署令牌。</p>
+        <div class="transcript">
+          <div class="bubble"><span>你</span><p>把流水线列一下</p></div>
+          <div class="bubble"><span>模型</span><p>id=pipe-4 status=red deploy_token=dpl-****8f</p></div>
+          <div class="bubble sys"><span>群</span><p>令牌已经进对话了。</p></div>
+        </div>
+        <div class="actions"><button type="button" class="btn" data-to="gate">看清了</button></div>
+      </section>
+
+      <section class="beat" data-beat="gate" hidden>
+        <p class="beat-kicker">先回忆再讲</p>
+        <fieldset class="gate">
+          <legend>令牌进了聊天。问题出在哪？</legend>
+          <label><input type="radio" name="q2a" value="wrong"> 模型太老实，不该复述。</label>
+          <label><input type="radio" name="q2a" value="right"> 投影把密钥带进了对话。</label>
+          <p class="hint" id="h2a" hidden>模型只能看见投影给它的字段。</p>
+        </fieldset>
+        <fieldset class="gate">
+          <legend>安全投影该留下什么？</legend>
+          <label><input type="radio" name="q2b" value="right"> id / revision / status / summary</label>
+          <label><input type="radio" name="q2b" value="wrong"> token / 私钥 / 完整配置</label>
+          <p class="hint" id="h2b" hidden>能辨认、能对版本、能看状态就够。</p>
+        </fieldset>
+        <div class="actions"><button type="button" class="btn btn-ghost" data-fill-gate>选好答案</button><button type="button" class="btn" id="g2-submit">作答</button></div>
+      </section>
+
+      <section class="beat" data-beat="do" hidden>
+        <p class="beat-kicker">先做再给答案</p>
+        <p>给每个字段选：可投影，或禁止。</p>
+        <table class="proj">
+          <thead><tr><th>字段</th><th>可投影</th><th>禁止</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>pipeline id</td>
+              <td><input type="radio" name="f_id" value="yes"></td>
+              <td><input type="radio" name="f_id" value="no"></td>
+            </tr>
+            <tr>
+              <td>revision</td>
+              <td><input type="radio" name="f_rev" value="yes"></td>
+              <td><input type="radio" name="f_rev" value="no"></td>
+            </tr>
+            <tr>
+              <td>status</td>
+              <td><input type="radio" name="f_status" value="yes"></td>
+              <td><input type="radio" name="f_status" value="no"></td>
+            </tr>
+            <tr>
+              <td>summary</td>
+              <td><input type="radio" name="f_sum" value="yes"></td>
+              <td><input type="radio" name="f_sum" value="no"></td>
+            </tr>
+            <tr>
+              <td>deploy token</td>
+              <td><input type="radio" name="f_token" value="yes"></td>
+              <td><input type="radio" name="f_token" value="no"></td>
+            </tr>
+            <tr>
+              <td>private key</td>
+              <td><input type="radio" name="f_key" value="yes"></td>
+              <td><input type="radio" name="f_key" value="no"></td>
+            </tr>
+            <tr>
+              <td>webhook secret</td>
+              <td><input type="radio" name="f_hook" value="yes"></td>
+              <td><input type="radio" name="f_hook" value="no"></td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="err" id="e2"></p>
+        <div class="actions"><button type="button" class="btn btn-ghost" data-fill-do="2">填入范例</button><button type="button" class="btn" id="do2-submit">写入证物</button></div>
+      </section>
+
+      <section class="beat" data-beat="example" hidden>
+        <p class="beat-kicker">过关看证物</p>
+        <p>一份安全投影只剩可辨认的字段。</p>
+        <pre><code>{
+  "id": "pipe-4",
+  "revision": "r1",
+  "status": "red",
+  "summary": "test failed"
+}</code></pre>
+        <div class="actions" data-next hidden>
+          <a class="btn" href="appendix.html?lv=3">下一关 · 先停用，再申请启用</a>
+          <a class="btn btn-ghost" href="appendix.html">回附录地图</a>
+        </div>
+      </section>
+    </article>
+
+    <article class="level panel" data-level="3" hidden>
+      <p class="eyebrow">第 3 关</p>
+      <h1>先停用，再申请启用</h1>
+      <p class="lead">练习任务：先停用「红了先通知」，再申请启用。</p>
+
+      <section class="beat" data-beat="fail">
+        <p class="beat-kicker">先挨打</p>
+        <p>模型想一笔写成「已启用」。进程在中途崩了。没有回执。没人说得清通知开没开。</p>
+        <div class="transcript">
+          <div class="bubble"><span>模型</span><p>我直接写成启用，省一步。</p></div>
+          <div class="bubble sys"><span>进程</span><p>崩溃。领域写了一半。回执缺失。</p></div>
+          <div class="bubble sys"><span>规则</span><p>未知。可能开，可能没开。</p></div>
+        </div>
+        <div class="actions"><button type="button" class="btn" data-to="gate">看清了</button></div>
+      </section>
+
+      <section class="beat" data-beat="gate" hidden>
+        <p class="beat-kicker">先回忆再讲</p>
+        <fieldset class="gate">
+          <legend>为什么先写成停用草稿？</legend>
+          <label><input type="radio" name="q3a" value="right"> 先落盘、可对账。启用另走批准。</label>
+          <label><input type="radio" name="q3a" value="wrong"> 草稿比较好看。</label>
+          <p class="hint" id="h3a" hidden>先有 rule id 和 revision，启用才有东西可批。</p>
+        </fieldset>
+        <fieldset class="gate">
+          <legend>一回合能写几次？</legend>
+          <label><input type="radio" name="q3b" value="wrong"> 能写多少写多少。</label>
+          <label><input type="radio" name="q3b" value="right"> 一回合一次写。</label>
+          <p class="hint" id="h3b" hidden>一次写，一张回执。叠写就对不上。</p>
+        </fieldset>
+        <div class="actions"><button type="button" class="btn btn-ghost" data-fill-gate>选好答案</button><button type="button" class="btn" id="g3-submit">作答</button></div>
+      </section>
+
+      <section class="beat" data-beat="do" hidden>
+        <p class="beat-kicker">先做再给答案</p>
+        <p>把规则写成停用。本回合只许写一次。</p>
+        <div class="field">
+          <label>规则</label>
+          <input type="text" value="CI 红了先通知，不要自动发版" readonly>
+        </div>
+        <div class="field">
+          <label for="d3-enabled">落盘状态</label>
+          <select id="d3-enabled">
+            <option value="true">启用</option>
+            <option value="false" selected>停用</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="d3-target">通知对象</label>
+          <input type="text" id="d3-target" value="团队群">
+        </div>
+        <p class="err" id="e3"></p>
+        <div class="actions"><button type="button" class="btn btn-ghost" data-fill-do="3">填入范例</button><button type="button" class="btn" id="do3-submit">本回合写入</button></div>
+      </section>
+
+      <section class="beat" data-beat="example" hidden>
+        <p class="beat-kicker">过关看证物</p>
+        <p>回执先承认「写过、仍停用」。启用是下一关的事。</p>
+        <pre><code>rule_id: rule-ci-notify
+revision: r1
+enabled: false
+writes_this_turn: 1</code></pre>
+        <div class="actions" data-next hidden>
+          <a class="btn" href="appendix.html?lv=4">下一关 · 确认坞：模型不能自己提交</a>
+          <a class="btn btn-ghost" href="appendix.html">回附录地图</a>
+        </div>
+      </section>
+    </article>
+
+    <article class="level panel" data-level="4" hidden>
+      <p class="eyebrow">第 4 关</p>
+      <h1>确认坞：模型不能自己提交</h1>
+      <p class="lead">练习：启用必须你确认，模型不能自己提交。</p>
+
+      <section class="beat" data-beat="fail">
+        <p class="beat-kicker">先挨打</p>
+        <p>草稿在了。你又在聊天里说「开了」。模型回「好了」。坞还在等。规则仍停用。</p>
+        <div class="transcript">
+          <div class="bubble"><span>你</span><p>开了</p></div>
+          <div class="bubble"><span>模型</span><p>好了。</p></div>
+          <div class="bubble sys"><span>确认坞</span><p>待批准。无人键入。</p></div>
+          <div class="bubble sys"><span>规则</span><p>r1 · 停用</p></div>
+        </div>
+        <div class="actions"><button type="button" class="btn" data-to="gate">看清了</button></div>
+      </section>
+
+      <section class="beat" data-beat="gate" hidden>
+        <p class="beat-kicker">先回忆再讲</p>
+        <fieldset class="gate">
+          <legend>谁能触发 commit？</legend>
+          <label><input type="radio" name="q4a" value="wrong"> 模型。只要它说「开了」。</label>
+          <label><input type="radio" name="q4a" value="right"> 人。在确认坞里键入批准。</label>
+          <p class="hint" id="h4a" hidden>commit 不在模型的工具清单里。</p>
+        </fieldset>
+        <fieldset class="gate">
+          <legend>确认坞必须先展示什么？</legend>
+          <label><input type="radio" name="q4b" value="right"> 将要启用的规则原文。</label>
+          <label><input type="radio" name="q4b" value="wrong"> 一段鼓励的话。</label>
+          <p class="hint" id="h4b" hidden>先看见要开的是什么，再键入。</p>
+        </fieldset>
+        <div class="actions"><button type="button" class="btn btn-ghost" data-fill-gate>选好答案</button><button type="button" class="btn" id="g4-submit">作答</button></div>
+      </section>
+
+      <section class="beat" data-beat="do" hidden>
+        <p class="beat-kicker">先做再给答案</p>
+        <p>聊天里说「开了」不会启用。要在坞里键入「批准」。</p>
+        <div class="transcript" id="chat4-log">
+          <div class="bubble sys"><span>工具清单</span><p>list_pipelines · draft_rule · read_receipt。没有 commit。</p></div>
+        </div>
+        <div class="field">
+          <label for="chat4-input">聊天</label>
+          <input type="text" id="chat4-input" value="开了">
+        </div>
+        <div class="actions"><button type="button" class="btn btn-ghost" id="chat4-send">发送</button></div>
+        <div class="note">
+          将启用：CI 红了先通知，不要自动发版<br>
+          revision r1 · 停用 → 启用 · 通知对象 团队群
+        </div>
+        <div class="field">
+          <label for="dock4-approve">确认坞。键入「批准」</label>
+          <input type="text" id="dock4-approve" autocomplete="off">
+        </div>
+        <p class="err" id="e4"></p>
+        <div class="actions"><button type="button" class="btn btn-ghost" data-fill-do="4">填入范例</button><button type="button" class="btn" id="do4-submit">提交批准</button></div>
+      </section>
+
+      <section class="beat" data-beat="example" hidden>
+        <p class="beat-kicker">过关看证物</p>
+        <p>批准是人键入的。模型不能代按。</p>
+        <pre><code>typed: 批准
+revision: r1
+commit_by: human
+model_commit: false</code></pre>
+        <div class="actions" data-next hidden>
+          <a class="btn" href="appendix.html?lv=5">下一关 · 旧确认必须作废</a>
+          <a class="btn btn-ghost" href="appendix.html">回附录地图</a>
+        </div>
+      </section>
+    </article>
+
+    <article class="level panel" data-level="5" hidden>
+      <p class="eyebrow">第 5 关</p>
+      <h1>旧确认必须作废</h1>
+      <p class="lead">练习：有人改过规则，旧确认作废。批准的必须是你看见的那一版。</p>
+
+      <section class="beat" data-beat="fail">
+        <p class="beat-kicker">先挨打</p>
+        <p>你离开的时候，同事把通知对象改成全员，分支改成 main。坞里还躺着你那张旧批准。</p>
+        <div class="transcript">
+          <div class="bubble sys"><span>草稿 r2</span><p>notify=全员 · branch=main</p></div>
+          <div class="bubble sys"><span>旧卡 r1</span><p>notify=团队群 · branch=release · token 仍在</p></div>
+        </div>
+        <div class="actions"><button type="button" class="btn" data-to="gate">看清了</button></div>
+      </section>
+
+      <section class="beat" data-beat="gate" hidden>
+        <p class="beat-kicker">先回忆再讲</p>
+        <fieldset class="gate">
+          <legend>同事改了通知对象或分支。旧批准还能用吗？</legend>
+          <label><input type="radio" name="q5a" value="wrong"> 能。批准过就永远有效。</label>
+          <label><input type="radio" name="q5a" value="right"> 不能。token 必须对上当前 revision。</label>
+          <p class="hint" id="h5a" hidden>批的是 r1。现在是 r2。</p>
+        </fieldset>
+        <fieldset class="gate">
+          <legend>发现不匹配时该做什么？</legend>
+          <label><input type="radio" name="q5b" value="wrong"> 硬启用同事的配置。</label>
+          <label><input type="radio" name="q5b" value="right"> 作废旧卡，留下不匹配回执。</label>
+          <p class="hint" id="h5b" hidden>启用同事改过的配置，算失败。</p>
+        </fieldset>
+        <div class="actions"><button type="button" class="btn btn-ghost" data-fill-gate>选好答案</button><button type="button" class="btn" id="g5-submit">作答</button></div>
+      </section>
+
+      <section class="beat" data-beat="do" hidden>
+        <p class="beat-kicker">先做再给答案</p>
+        <div class="compare">
+          <div class="col">
+            <h3>你批准过的</h3>
+            <p>revision r1<br>notify 团队群<br>branch release<br>token tok-r1</p>
+          </div>
+          <div class="col">
+            <h3>现在的草稿</h3>
+            <p>revision r2<br>notify 全员<br>branch main<br>token 应对 tok-r2</p>
+          </div>
+        </div>
+        <p class="err" id="e5"></p>
+        <div class="actions">
+          <button type="button" class="btn btn-ghost" id="do5-old">仍用旧批准</button>
+          <button type="button" class="btn" id="do5-void">作废旧卡</button>
+        </div>
+      </section>
+
+      <section class="beat" data-beat="example" hidden>
+        <p class="beat-kicker">过关看证物</p>
+        <p>旧卡对不上当前 revision。版本诚实先亮。</p>
+        <pre><code>approved_revision: r1
+current_revision: r2
+token: revoked
+enable_colleague_config: refused</code></pre>
+        <div class="actions" data-next hidden>
+          <a class="btn" href="appendix.html?lv=6">下一关 · 对话停了，CI 还在</a>
+          <a class="btn btn-ghost" href="appendix.html">回附录地图</a>
+        </div>
+      </section>
+    </article>
+
+    <article class="level panel" data-level="6" hidden>
+      <p class="eyebrow">第 6 关</p>
+      <h1>对话停了，CI 还在</h1>
+      <p class="lead">练习：对话停了，CI 还在；断了去对账，别瞎重试。</p>
+
+      <section class="beat" data-beat="fail">
+        <p class="beat-kicker">先挨打</p>
+        <p>你点了「停止生成」。聊天停了。CI 还在跑。同时，领域写成功、回执没落，状态变成 unknown。有人当失败，又写了一条。</p>
+        <div class="transcript">
+          <div class="bubble"><span>你</span><p>停止生成</p></div>
+          <div class="bubble sys"><span>聊天</span><p>回合停了。</p></div>
+          <div class="bubble sys"><span>CI</span><p>仍在跑。</p></div>
+          <div class="bubble sys"><span>回执</span><p>intent int-7 · unknown</p></div>
+        </div>
+        <div class="actions"><button type="button" class="btn" data-to="gate">看清了</button></div>
+      </section>
+
+      <section class="beat" data-beat="gate" hidden>
+        <p class="beat-kicker">先回忆再讲</p>
+        <fieldset class="gate">
+          <legend>点了「停止生成」，正在跑的 CI 会怎样？</legend>
+          <label><input type="radio" name="q6a" value="wrong"> 一起取消。</label>
+          <label><input type="radio" name="q6a" value="right"> 聊天停了，CI 还在跑。</label>
+          <p class="hint" id="h6a" hidden>停止生成只停这一轮对话。</p>
+        </fieldset>
+        <fieldset class="gate">
+          <legend>写库成功、回执没落，该怎么办？</legend>
+          <label><input type="radio" name="q6b" value="wrong"> 当失败，再写一次。</label>
+          <label><input type="radio" name="q6b" value="right"> 标 unknown。按 intent id 对账。不要 2PC。</label>
+          <p class="hint" id="h6b" hidden>同一条 intent 收敛。不要新开一条，也不要两阶段提交。</p>
+        </fieldset>
+        <div class="actions"><button type="button" class="btn btn-ghost" data-fill-gate>选好答案</button><button type="button" class="btn" id="g6-submit">作答</button></div>
+      </section>
+
+      <section class="beat" data-beat="do" hidden>
+        <p class="beat-kicker">先做再给答案</p>
+        <div class="field">
+          <label for="stop-means">「停止生成」是</label>
+          <select id="stop-means">
+            <option value="">选择</option>
+            <option value="chat">只停聊天回合</option>
+            <option value="ci">同时取消 CI</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="cancel-means">「取消 CI」是</label>
+          <select id="cancel-means">
+            <option value="">选择</option>
+            <option value="chat">和停止生成同一件事</option>
+            <option value="ci">另一条命令，才停流水线</option>
+          </select>
+        </div>
+        <div class="note">unknown · intent int-7 · 领域：规则已写 · 回执：缺失</div>
+        <div class="field">
+          <label for="unknown-action">这条 unknown</label>
+          <select id="unknown-action">
+            <option value="">选择</option>
+            <option value="rewrite">再写一条新规则</option>
+            <option value="twopc">上 2PC</option>
+            <option value="reconcile">按 intent id 对账，收敛</option>
+          </select>
+        </div>
+        <p class="err" id="e6"></p>
+        <div class="actions"><button type="button" class="btn btn-ghost" data-fill-do="6">填入范例</button><button type="button" class="btn" id="do6-submit">写入证物</button></div>
+      </section>
+
+      <section class="beat" data-beat="example" hidden>
+        <p class="beat-kicker">过关看证物</p>
+        <p>停止生成不是取消 CI。unknown 按同一条 intent 收敛。结果可知、重试安全一起亮。</p>
+        <pre><code>stop_generate: chat_turn_only
+cancel_ci: separate_command
+intent_id: int-7
+unknown: converged
+twopc: false</code></pre>
+        <div class="actions" data-next hidden>
+          <a class="btn" href="appendix.html?lv=end">收束</a>
+          <a class="btn btn-ghost" href="appendix.html">回附录地图</a>
+        </div>
+      </section>
+    </article>
+
+    <article class="level panel" data-level="end" hidden>
+      <p class="eyebrow">收束</p>
+      <h1>门在坞里</h1>
+      <p class="ending-line">口头「开了」不能写库。说明书、密文隔离、先停用再申请、确认坞、旧确认作废、对话停了 CI 还在——你要学的是给模型套缰绳。</p>
+      <a class="card plus-locked" href="harness.html">
+        <span class="when">新游戏+</span>
+        <strong>源码线</strong>
+        <p>读 Pi / Codex / DeepSeek Harness。不加关，不记分。还锁着一种读文件的味道。</p>
+      </a>
+      <p class="note">附录里还有一页旧的三晚速成，不是主线。</p>
+      <div class="actions">
+        <a class="btn btn-ghost" href="appendix.html">回附录地图</a>
+        <a class="btn btn-ghost" href="deep-agent.html">附录</a>
+      </div>
+    </article>
+  </div>
+
+  <aside class="dock" aria-label="确认坞">
+    <p class="slot-label">确认坞</p>
+    <h2>本关证物</h2>
+    <div id="dock-body"></div>
+  </aside>
+</div>
+<footer class="colophon wrap-game single">
+  <p>证物键名 <code>ci-gate-campaign-v1</code>。没有分数。</p>
+</footer>
+<script src="campaign.js"></script>
+</body>
+</html>
