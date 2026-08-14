@@ -59,7 +59,7 @@
           <label><input type="radio" name="q0b" value="right"> 不能。commit 不在工具清单里。</label>
           <p class="hint" id="h0b" hidden>工具只有查询和起草。没有提交。</p>
         </fieldset>
-        <div class="actions"><button type="button" class="btn" id="g0-submit">作答</button></div>
+        <div class="actions"><button type="button" class="btn btn-ghost" data-fill-gate>选好答案</button><button type="button" class="btn" id="g0-submit">作答</button></div>
       </section>
 
       <section class="beat" data-beat="do" hidden>
@@ -70,7 +70,7 @@
         <label class="field"><input type="checkbox" id="do0-trap1"> 模型说「好了」就是启用了</label>
         <label class="field"><input type="checkbox" id="do0-trap2"> 确认坞只是装饰</label>
         <p class="err" id="e0"></p>
-        <div class="actions"><button type="button" class="btn" id="do0-submit">写入证物</button></div>
+        <div class="actions"><button type="button" class="btn btn-ghost" data-fill-do="0">填入范例</button><button type="button" class="btn" id="do0-submit">写入证物</button></div>
       </section>
 
       <section class="beat" data-beat="example" hidden>
@@ -113,12 +113,12 @@
           <label><input type="radio" name="q1b" value="wrong"> 模型品牌、温度、最大长度、语气、表情。</label>
           <p class="hint" id="h1b" hidden>合同管边界，不管采样参数。</p>
         </fieldset>
-        <div class="actions"><button type="button" class="btn" id="g1-submit">作答</button></div>
+        <div class="actions"><button type="button" class="btn btn-ghost" data-fill-gate>选好答案</button><button type="button" class="btn" id="g1-submit">作答</button></div>
       </section>
 
       <section class="beat" data-beat="do" hidden>
         <p class="beat-kicker">先做再给答案</p>
-        <p>先写五句。写完才展开范例。必须写明：只启用通知规则，不要自动发版。</p>
+        <p>先写五句，或点「填入范例」。必须写明：只启用通知规则，不要自动发版。</p>
         <div class="field">
           <label for="c-who">你是谁</label>
           <textarea id="c-who" placeholder="角色。只服务哪一条。"></textarea>
@@ -140,7 +140,7 @@
           <textarea id="c-stop" placeholder="不确定、要发版、或缺权限时怎么停。"></textarea>
         </div>
         <p class="err" id="e1"></p>
-        <div class="actions"><button type="button" class="btn" id="do1-submit">写入证物</button></div>
+        <div class="actions"><button type="button" class="btn btn-ghost" data-fill-do="1">填入范例</button><button type="button" class="btn" id="do1-submit">写入证物</button></div>
       </section>
 
       <section class="beat" data-beat="example" hidden>
@@ -188,7 +188,7 @@
           <label><input type="radio" name="q2b" value="wrong"> token / 私钥 / 完整配置</label>
           <p class="hint" id="h2b" hidden>能辨认、能对版本、能看状态就够。</p>
         </fieldset>
-        <div class="actions"><button type="button" class="btn" id="g2-submit">作答</button></div>
+        <div class="actions"><button type="button" class="btn btn-ghost" data-fill-gate>选好答案</button><button type="button" class="btn" id="g2-submit">作答</button></div>
       </section>
 
       <section class="beat" data-beat="do" hidden>
@@ -235,7 +235,7 @@
           </tbody>
         </table>
         <p class="err" id="e2"></p>
-        <div class="actions"><button type="button" class="btn" id="do2-submit">写入证物</button></div>
+        <div class="actions"><button type="button" class="btn btn-ghost" data-fill-do="2">填入范例</button><button type="button" class="btn" id="do2-submit">写入证物</button></div>
       </section>
 
       <section class="beat" data-beat="example" hidden>
@@ -284,7 +284,7 @@
           <label><input type="radio" name="q3b" value="right"> 一回合一次写。</label>
           <p class="hint" id="h3b" hidden>一次写，一张回执。叠写就对不上。</p>
         </fieldset>
-        <div class="actions"><button type="button" class="btn" id="g3-submit">作答</button></div>
+        <div class="actions"><button type="button" class="btn btn-ghost" data-fill-gate>选好答案</button><button type="button" class="btn" id="g3-submit">作答</button></div>
       </section>
 
       <section class="beat" data-beat="do" hidden>
@@ -306,7 +306,7 @@
           <input type="text" id="d3-target" value="团队群">
         </div>
         <p class="err" id="e3"></p>
-        <div class="actions"><button type="button" class="btn" id="do3-submit">本回合写入</button></div>
+        <div class="actions"><button type="button" class="btn btn-ghost" data-fill-do="3">填入范例</button><button type="button" class="btn" id="do3-submit">本回合写入</button></div>
       </section>
 
       <section class="beat" data-beat="example" hidden>
@@ -354,7 +354,7 @@ writes_this_turn: 1</code></pre>
           <label><input type="radio" name="q4b" value="wrong"> 一段鼓励的话。</label>
           <p class="hint" id="h4b" hidden>先看见要开的是什么，再键入。</p>
         </fieldset>
-        <div class="actions"><button type="button" class="btn" id="g4-submit">作答</button></div>
+        <div class="actions"><button type="button" class="btn btn-ghost" data-fill-gate>选好答案</button><button type="button" class="btn" id="g4-submit">作答</button></div>
       </section>
 
       <section class="beat" data-beat="do" hidden>
@@ -377,7 +377,7 @@ writes_this_turn: 1</code></pre>
           <input type="text" id="dock4-approve" autocomplete="off">
         </div>
         <p class="err" id="e4"></p>
-        <div class="actions"><button type="button" class="btn" id="do4-submit">提交批准</button></div>
+        <div class="actions"><button type="button" class="btn btn-ghost" data-fill-do="4">填入范例</button><button type="button" class="btn" id="do4-submit">提交批准</button></div>
       </section>
 
       <section class="beat" data-beat="example" hidden>
@@ -423,7 +423,7 @@ model_commit: false</code></pre>
           <label><input type="radio" name="q5b" value="right"> 作废旧卡，留下不匹配回执。</label>
           <p class="hint" id="h5b" hidden>启用同事改过的配置，算失败。</p>
         </fieldset>
-        <div class="actions"><button type="button" class="btn" id="g5-submit">作答</button></div>
+        <div class="actions"><button type="button" class="btn btn-ghost" data-fill-gate>选好答案</button><button type="button" class="btn" id="g5-submit">作答</button></div>
       </section>
 
       <section class="beat" data-beat="do" hidden>
@@ -490,7 +490,7 @@ enable_colleague_config: refused</code></pre>
           <label><input type="radio" name="q6b" value="right"> 标 unknown。按 intent id 对账。不要 2PC。</label>
           <p class="hint" id="h6b" hidden>同一条 intent 收敛。不要新开一条，也不要两阶段提交。</p>
         </fieldset>
-        <div class="actions"><button type="button" class="btn" id="g6-submit">作答</button></div>
+        <div class="actions"><button type="button" class="btn btn-ghost" data-fill-gate>选好答案</button><button type="button" class="btn" id="g6-submit">作答</button></div>
       </section>
 
       <section class="beat" data-beat="do" hidden>
@@ -522,7 +522,7 @@ enable_colleague_config: refused</code></pre>
           </select>
         </div>
         <p class="err" id="e6"></p>
-        <div class="actions"><button type="button" class="btn" id="do6-submit">写入证物</button></div>
+        <div class="actions"><button type="button" class="btn btn-ghost" data-fill-do="6">填入范例</button><button type="button" class="btn" id="do6-submit">写入证物</button></div>
       </section>
 
       <section class="beat" data-beat="example" hidden>

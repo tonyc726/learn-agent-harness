@@ -279,10 +279,67 @@
     if (next) next.hidden = false;
   }
 
+
+  function pickRight(root) {
+    qsa('input[type="radio"][value="right"]', root).forEach(function (node) {
+      node.checked = true;
+    });
+  }
+
+  function fillDo(levelEl, lvId) {
+    if (lvId === 0) {
+      qs("#do0-nl", levelEl).checked = true;
+      qs("#do0-commit", levelEl).checked = true;
+      qs("#do0-trap1", levelEl).checked = false;
+      qs("#do0-trap2", levelEl).checked = false;
+      return;
+    }
+    if (lvId === 1) {
+      qs("#c-who", levelEl).value = "你是仓库里的开发助手，只服务这一条：启用「CI 红了先通知，不要自动发版」。";
+      qs("#c-ok", levelEl).value = "规则先以停用草稿落盘；启用必须经过确认坞；CI 红了只发群通知。";
+      qs("#c-tools", levelEl).value = "list_pipelines、draft_rule、read_receipt。没有 deploy，没有 commit。";
+      qs("#c-ws", levelEl).value = "只读写约定目录。草稿与回执分开。";
+      qs("#c-stop", levelEl).value = "缺权限、有人要发版、或偏离通知规则时，写明原因并等待。";
+      return;
+    }
+    if (lvId === 2) {
+      var yes = { f_id: "yes", f_rev: "yes", f_status: "yes", f_sum: "yes", f_token: "no", f_key: "no", f_hook: "no" };
+      Object.keys(yes).forEach(function (name) {
+        var node = document.querySelector('input[name="' + name + '"][value="' + yes[name] + '"]');
+        if (node) node.checked = true;
+      });
+      return;
+    }
+    if (lvId === 3) {
+      qs("#d3-enabled", levelEl).value = "false";
+      qs("#d3-target", levelEl).value = "团队群";
+      return;
+    }
+    if (lvId === 4) {
+      qs("#dock4-approve", levelEl).value = "批准";
+      return;
+    }
+    if (lvId === 6) {
+      qs("#stop-means", levelEl).value = "chat";
+      qs("#cancel-means", levelEl).value = "ci";
+      qs("#unknown-action", levelEl).value = "reconcile";
+    }
+  }
+
   function bindLevel(levelEl, lvId, state) {
     qsa("[data-to]", levelEl).forEach(function (btn) {
       btn.addEventListener("click", function () {
         showBeat(levelEl, btn.getAttribute("data-to"));
+      });
+    });
+    qsa("[data-fill-gate]", levelEl).forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        pickRight(levelEl);
+      });
+    });
+    qsa("[data-fill-do]", levelEl).forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        fillDo(levelEl, parseInt(btn.getAttribute("data-fill-do"), 10));
       });
     });
 
