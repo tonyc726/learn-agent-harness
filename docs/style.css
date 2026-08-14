@@ -550,6 +550,7 @@ body.is-game .site-nav,
   color: var(--rust-deep);
   font-size: 0.92rem;
 }
+.err:empty { display: none; }
 
 .ok {
   margin: 0.5rem 0 0;

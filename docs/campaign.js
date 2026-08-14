@@ -358,17 +358,17 @@
         var ws = qs("#c-ws", levelEl).value.trim();
         var stop = qs("#c-stop", levelEl).value.trim();
         var all = [who, ok, tools, ws, stop];
-        if (all.some(function (s) { return s.length < 6; })) {
-          setText("e1", "五句都要写。每句至少写清一件事。");
+        if (all.some(function (s) { return !s; })) {
+          setText("e1", "五句都要写。空着的那格补上就行。");
           return;
         }
         var blob = all.join("\n");
         if (!hasNotify(blob)) {
-          setText("e1", "成功标准里要出现这条通知规则。");
+          setText("e1", "五句里要写到：启用「红了先通知」。现在写的是测试，不是这道门禁。");
           return;
         }
         if (!hasNoDeploy(blob)) {
-          setText("e1", "合同必须写明：不要自动发版。");
+          setText("e1", "五句里要写明：不要自动发版。");
           return;
         }
         if (/deploy|发版/.test(tools) && !/不|禁|勿|没/.test(tools)) {
