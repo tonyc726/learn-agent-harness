@@ -338,7 +338,9 @@
 
   function applyHash() {
     var id = hashId();
-    activateSection(document.getElementById(id));
+    var el = document.getElementById(id);
+    activateSection(el);
+    if (el) el.scrollIntoView({ block: "start" });
   }
 
   function pickInView() {
@@ -355,6 +357,7 @@
       applyHash();
       return;
     }
+    var article = qs(".read-article");
     var observer = new IntersectionObserver(
       function (entries) {
         entries.forEach(function (entry) {
@@ -364,7 +367,7 @@
         });
         pickInView();
       },
-      { root: null, rootMargin: "-18% 0px -58% 0px", threshold: 0 }
+      { root: article || null, rootMargin: "-18% 0px -58% 0px", threshold: 0 }
     );
     sections.forEach(function (el) {
       observer.observe(el);
