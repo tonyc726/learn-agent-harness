@@ -1,0 +1,290 @@
+/* Scrolling article + kit dock. Cream / ink / rust. */
+
+.file-jump {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  list-style: none;
+  margin: 0 0 1.15rem;
+  padding: 0;
+}
+
+.file-jump li { margin: 0; }
+
+.file-jump a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0.35rem 0.8rem;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  background: var(--paper);
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.file-jump a:hover,
+.file-jump a:focus-visible {
+  border-color: var(--rust);
+  color: var(--rust);
+}
+
+.file-jump code {
+  background: none;
+  padding: 0;
+}
+
+.btn-start {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0.62rem 1.2rem;
+}
+
+.home-aside {
+  margin: 0.85rem 0 0;
+  font-size: 0.92rem;
+  color: var(--muted);
+}
+
+.play-layout {
+  width: min(1100px, calc(100% - 2rem));
+  margin: 0 auto;
+  padding: 1.4rem 0 4rem;
+}
+
+.read-article section {
+  min-height: 62vh;
+  padding: 2.2rem 0 2.6rem;
+  border-bottom: 1px solid var(--rule);
+  scroll-margin-top: 1rem;
+}
+
+.read-article section:last-child {
+  border-bottom: 0;
+  padding-bottom: 3rem;
+}
+
+.read-article h2 {
+  font-size: clamp(1.45rem, 3.4vw, 2rem);
+  margin: 0 0 0.85rem;
+}
+
+.kit-dock {
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  border-radius: 18px;
+  padding: 0.85rem 0.95rem 1rem;
+}
+
+.kit-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.45rem 0.55rem;
+}
+
+.kit-bar .slot-label {
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--rust);
+  font-weight: 600;
+  margin: 0;
+}
+
+.kit-file-label {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 0.82rem;
+  color: var(--ink);
+  min-height: 1.2em;
+}
+
+.kit-file-label:empty { display: none; }
+
+.progress-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0.2rem 0.7rem;
+  border-radius: 999px;
+  background: var(--chip);
+  color: var(--ink);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.kit-lock,
+.kit-sheet-toggle {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  min-width: 44px;
+  padding: 0.35rem 0.8rem;
+  border: 1px solid var(--rule);
+  border-radius: 10px;
+  background: var(--cream);
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.kit-lock.is-locked,
+.kit-lock[aria-pressed="true"] {
+  border-color: var(--rust);
+  color: var(--rust);
+  background: var(--chip);
+}
+
+.kit-lock:focus-visible,
+.kit-sheet-toggle:focus-visible,
+.kit-chip:focus-visible,
+.file-jump a:focus-visible,
+.btn-start:focus-visible {
+  outline: 2px solid var(--rust);
+  outline-offset: 2px;
+}
+
+.kit-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0.7rem 0 0;
+}
+
+.kit-chip {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0.3rem 0.7rem;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  background: var(--cream);
+  color: var(--muted);
+  font: inherit;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 0.78rem;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.kit-chip.is-on {
+  border-color: var(--rust);
+  color: var(--ink);
+  background: var(--chip);
+}
+
+.kit-panel {
+  margin-top: 0.7rem;
+}
+
+.kit-panel .empty {
+  color: var(--muted);
+  font-size: 0.92rem;
+  margin: 0;
+}
+
+.kit-panel pre {
+  margin: 0;
+  max-height: min(62vh, 36rem);
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+@media (min-width: 721px) {
+  .play-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(280px, 360px);
+    gap: 1.35rem 1.4rem;
+    align-items: start;
+    padding-bottom: 42vh;
+  }
+
+  .kit-dock {
+    position: sticky;
+    top: 0.8rem;
+    max-height: calc(100vh - 1.6rem);
+    overflow: auto;
+  }
+
+  .kit-sheet-toggle { display: none; }
+
+  .kit-sheet { display: block; }
+}
+
+@media (max-width: 720px) {
+  .play-layout {
+    display: block;
+    width: min(1100px, calc(100% - 1.25rem));
+    padding: 1rem 0 0;
+  }
+
+  body.is-read {
+    padding-bottom: 7.25rem;
+  }
+
+  body.is-read.kit-open {
+    padding-bottom: calc(45vh + 9.5rem);
+  }
+
+  .read-article section {
+    min-height: 70vh;
+    padding: 1.6rem 0 2rem;
+  }
+
+  .btn-start {
+    width: 100%;
+  }
+
+  .kit-dock {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 30;
+    border-radius: 16px 16px 0 0;
+    border-left: 0;
+    border-right: 0;
+    border-bottom: 0;
+    padding: 0.65rem 0.9rem calc(0.7rem + env(safe-area-inset-bottom, 0px));
+    max-height: none;
+  }
+
+  .kit-dock:not(.is-open) .kit-sheet {
+    display: none;
+  }
+
+  .kit-dock.is-open .kit-sheet {
+    display: block;
+  }
+
+  .kit-dock.is-open .kit-panel pre {
+    max-height: 45vh;
+  }
+
+  .kit-bar .slot-label {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .progress-chip,
+  .kit-lock,
+  .kit-sheet-toggle,
+  .kit-chip,
+  .file-jump a,
+  .btn-start {
+    min-height: 44px;
+  }
+}
