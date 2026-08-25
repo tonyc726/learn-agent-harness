@@ -241,6 +241,72 @@
       .replace(/>/g, "&gt;");
   }
 
+  var TS_KW = {
+    export: 1, import: 1, from: 1, type: 1, function: 1, const: 1, let: 1, var: 1,
+    async: 1, await: 1, return: 1, if: 1, else: 1, for: 1, of: 1, in: 1, new: 1,
+    throw: 1, yield: 1, void: 1, interface: 1, extends: 1, as: 1
+  };
+  var TS_PRIM = { string: 1, unknown: 1, number: 1, boolean: 1 };
+
+  function highlightTs(src) {
+    var out = "";
+    var i = 0;
+    var n = src.length;
+    function take(len, cls) {
+      var s = src.slice(i, i + len);
+      i += len;
+      out += cls
+        ? '<span class="tok-' + cls + '">' + escapeHtml(s) + "</span>"
+        : escapeHtml(s);
+    }
+    while (i < n) {
+      var c = src.charAt(i);
+      var two = src.slice(i, i + 2);
+      if (two === "//") {
+        var lineEnd = src.indexOf("\n", i);
+        if (lineEnd < 0) lineEnd = n;
+        take(lineEnd - i, "cmt");
+        continue;
+      }
+      if (two === "/*") {
+        var blockEnd = src.indexOf("*/", i + 2);
+        if (blockEnd < 0) blockEnd = n;
+        else blockEnd += 2;
+        take(blockEnd - i, "cmt");
+        continue;
+      }
+      if (c === "\"" || c === "'" || c === "`") {
+        var j = i + 1;
+        while (j < n) {
+          if (src.charAt(j) === "\\") { j += 2; continue; }
+          if (src.charAt(j) === c) { j += 1; break; }
+          j += 1;
+        }
+        take(j - i, "str");
+        continue;
+      }
+      if (c >= "0" && c <= "9") {
+        var k = i + 1;
+        while (k < n && src.charAt(k) >= "0" && src.charAt(k) <= "9") k += 1;
+        take(k - i, "num");
+        continue;
+      }
+      if (/[A-Za-z_$]/.test(c)) {
+        var w = i + 1;
+        while (w < n && /[A-Za-z0-9_$]/.test(src.charAt(w))) w += 1;
+        var word = src.slice(i, w);
+        var cls = "";
+        if (TS_KW[word]) cls = "kw";
+        else if (TS_PRIM[word]) cls = "type";
+        else if (word.charAt(0) >= "A" && word.charAt(0) <= "Z") cls = "type";
+        take(w - i, cls);
+        continue;
+      }
+      take(1, "");
+    }
+    return out;
+  }
+
   function qs(sel, root) {
     return (root || document).querySelector(sel);
   }
@@ -304,6 +370,10 @@
     }
   }
 
+  function isPhone() {
+    return window.matchMedia && window.matchMedia("(max-width: 559px)").matches;
+  }
+
   function showFile(key) {
     var ch = chapterByKey(key);
     if (!ch) return;
@@ -313,8 +383,9 @@
     var label = qs("#kit-file");
     if (label) label.textContent = ch.file;
     var body = qs("#kit-body");
-    if (body) body.innerHTML = "<pre><code>" + escapeHtml(ch.sample) + "</code></pre>";
+    if (body) body.innerHTML = "<pre><code class=\"lang-ts\">" + highlightTs(ch.sample) + "</code></pre>";
     renderChips();
+    if (isPhone()) setSheet(true);
   }
 
   function activateSection(el) {
@@ -399,9 +470,7 @@
         var key = btn.getAttribute("data-key");
         if (FILE_KEYS.indexOf(key) === -1) return;
         showFile(key);
-        if (window.matchMedia && window.matchMedia("(max-width: 720px)").matches) {
-          setSheet(true);
-        }
+        if (isPhone()) setSheet(true);
       });
     }
 
@@ -436,5 +505,13 @@
     observeSections();
   }
 
-  if (document.body.getAttribute("data-page") === "kit-play") initPlay();
+  function initHome() {
+    var el = qs("#home-code");
+    var ch = chapterByKey("llm");
+    if (el && ch) el.innerHTML = highlightTs(ch.sample);
+  }
+
+  var page = document.body.getAttribute("data-page");
+  if (page === "kit-play") initPlay();
+  if (page === "kit-home") initHome();
 })();
